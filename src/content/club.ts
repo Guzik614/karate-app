@@ -49,6 +49,7 @@ export const team: TeamMember[] = [
     name: "Łukasz Guzik",
     rank: "2 dan",
     role: "Sensei · założyciel i prezes klubu",
+    photo: "/klub/lukasz-guzik.jpg",
     bio: "Wszechstronny zawodnik i instruktor. W 2011 roku założył Dragon Fight Club Radom, kontynuując rodzinną tradycję Kyokushin.",
     achievements: [
       "Multimedalista Mistrzostw Polski w karate Kyokushin",
