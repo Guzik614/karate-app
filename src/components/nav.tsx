@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/techniki", label: "Techniki", icon: "拳" },
   { href: "/programy", label: "Programy", icon: "☰" },
   { href: "/wiedza", label: "Teoria i Wiedza", short: "Wiedza", icon: "書" },
+  { href: "/klub", label: "O Klubie & Trenerze", short: "Klub", icon: "龍" },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -23,12 +24,12 @@ export function TopNav() {
           <span className="text-xl text-accent-text">極真</span>
           <span>Kyokushin Dojo</span>
         </Link>
-        <nav className="hidden gap-1 md:flex">
+        <nav className="hidden gap-0.5 md:flex">
           {LINKS.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-md px-2.5 py-2 text-sm font-medium whitespace-nowrap transition-colors lg:px-3 ${
                 isActive(pathname, l.href) ? "bg-accent text-white" : "hover:bg-card"
               }`}
             >
@@ -45,7 +46,7 @@ export function TopNav() {
 export function BottomTabs() {
   const pathname = usePathname();
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-4 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-5 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
       {LINKS.map((l) => (
         <Link
           key={l.href}

@@ -38,6 +38,12 @@ const SECTIONS = [
     subtitle: "Japońskie komendy, techniki i pozycje.",
     meta: "Edukacja",
   },
+  {
+    href: "/klub",
+    title: "Dragon Fight Club Radom",
+    subtitle: "O klubie, trenerze, zdjęcia i kontakt.",
+    meta: "Klub",
+  },
 ];
 
 export default function Home() {
