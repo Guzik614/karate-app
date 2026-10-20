@@ -129,7 +129,123 @@ export const contact = {
   phone: "790 813 281",
   whatsapp: "48790813281",
   email: "kontakt@dragonfightclub.pl",
-  facebook: "",
-  instagram: "",
   mapQuery: "Dragon Fight Club, Tybla 10, Radom",
 };
+
+// ───────────────────────── Grafik zajęć ─────────────────────────
+
+export type Session = { time: string; group: string };
+export type ScheduleDay = { day: string; sessions: Session[] };
+export type DisciplineSchedule = { discipline: string; days: ScheduleDay[] };
+
+const kidsBeginners8to13 = "Grupa początkująca: dzieci 8–13 lat";
+const youthAdultsBeginners = "Grupa początkująca: młodzież i dorośli";
+const intermediateAdvanced = "Grupa średnia i zaawansowana";
+
+const threeGroups = (kids: string): Session[] => [
+  { time: "17:00", group: kids },
+  { time: "18:00", group: youthAdultsBeginners },
+  { time: "19:15", group: intermediateAdvanced },
+];
+
+// Sobotnia wolna mata jest wspólna dla wszystkich sekcji: pokazujemy ją osobno.
+export const openMat = { day: "Sobota", time: "10:00–12:00", label: "Wolna mata – open dla wszystkich sekcji" };
+
+export const schedule: DisciplineSchedule[] = [
+  {
+    discipline: "Karate Kyokushin",
+    days: [
+      {
+        day: "Poniedziałek",
+        sessions: [
+          { time: "17:00", group: "Grupa średnia od 9.1 kyu: dzieci 7–10 lat" },
+          { time: "18:00", group: "Grupa zaawansowana: dzieci, młodzież i dorośli" },
+        ],
+      },
+      {
+        day: "Wtorek",
+        sessions: [
+          { time: "17:00", group: "Grupa początkująca: dzieci 4–7 lat + rodzice" },
+          { time: "18:00", group: "Grupa początkująca: dzieci 8–13 lat, młodzież i dorośli" },
+        ],
+      },
+      {
+        day: "Środa",
+        sessions: [
+          { time: "17:00", group: "Grupa średnia od 9.1 kyu: dzieci 7–10 lat" },
+          { time: "18:00", group: "Grupa zaawansowana: dzieci, młodzież i dorośli" },
+        ],
+      },
+      {
+        day: "Czwartek",
+        sessions: [
+          { time: "17:00", group: "Grupa początkująca: dzieci 4–7 lat + rodzice" },
+          { time: "18:00", group: "Grupa początkująca: dzieci 8–13 lat, młodzież i dorośli" },
+        ],
+      },
+    ],
+  },
+  {
+    discipline: "Kickboxing",
+    days: [
+      { day: "Poniedziałek", sessions: threeGroups(kidsBeginners8to13) },
+      { day: "Środa", sessions: threeGroups(kidsBeginners8to13) },
+      { day: "Piątek", sessions: threeGroups(kidsBeginners8to13) },
+    ],
+  },
+  {
+    discipline: "Boks",
+    days: [
+      { day: "Wtorek", sessions: threeGroups(kidsBeginners8to13) },
+      { day: "Czwartek", sessions: threeGroups(kidsBeginners8to13) },
+      { day: "Sobota", sessions: [{ time: "10:00", group: "Open" }] },
+    ],
+  },
+  {
+    discipline: "Capoeira",
+    days: [
+      {
+        day: "Wtorek",
+        sessions: [
+          { time: "17:00", group: "Grupa początkująca: dzieci 6–13 lat" },
+          { time: "18:00", group: youthAdultsBeginners },
+          { time: "18:00", group: intermediateAdvanced },
+        ],
+      },
+      {
+        day: "Czwartek",
+        sessions: [
+          { time: "17:00", group: "Grupa początkująca: dzieci 6–13 lat" },
+          { time: "18:00", group: youthAdultsBeginners },
+          { time: "18:00", group: intermediateAdvanced },
+        ],
+      },
+      { day: "Sobota", sessions: [{ time: "10:30", group: "Open" }] },
+    ],
+  },
+  {
+    discipline: "Akademia 50+",
+    days: [
+      { day: "Poniedziałek", sessions: [{ time: "19:15", group: "Open" }] },
+      { day: "Środa", sessions: [{ time: "19:15", group: "Open" }] },
+    ],
+  },
+];
+
+// ───────────────────────── Media społecznościowe ─────────────────────────
+
+export type SocialLink = { network: "instagram" | "facebook" | "tiktok" | "youtube"; url: string };
+
+export const clubSocials: SocialLink[] = [
+  { network: "instagram", url: "https://www.instagram.com/dragonfightclub.radom" },
+  { network: "facebook", url: "https://www.facebook.com/dragonfightclubradom" },
+  { network: "tiktok", url: "https://www.tiktok.com/@dragonfightclub.radom" },
+  { network: "youtube", url: "https://www.youtube.com/@dragonfightclubradom6390" },
+];
+
+export const coachSocials: SocialLink[] = [
+  { network: "instagram", url: "https://www.instagram.com/sensei.guzik" },
+  { network: "facebook", url: "https://www.facebook.com/profile.php?id=61558583654481" },
+  { network: "tiktok", url: "https://www.tiktok.com/@sensei.guzik" },
+  { network: "youtube", url: "https://www.youtube.com/@sensei.guzikTV" },
+];

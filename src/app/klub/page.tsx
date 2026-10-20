@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { academy50, club, contact, photos, team, type TeamMember } from "@/content/club";
+import { ScheduleTabs } from "@/components/schedule-tabs";
+import { SocialLinks } from "@/components/social-links";
+import {
+  academy50,
+  club,
+  clubSocials,
+  coachSocials,
+  contact,
+  openMat,
+  photos,
+  schedule,
+  team,
+  type TeamMember,
+} from "@/content/club";
 
 export const metadata: Metadata = {
   title: "O Klubie & Trenerze",
@@ -16,8 +29,6 @@ export default function ClubPage() {
     { label: "Telefon", value: contact.phone, href: `tel:+48${contact.phone.replace(/\s/g, "")}` },
     { label: "WhatsApp", value: contact.whatsapp && "Napisz do nas", href: `https://wa.me/${contact.whatsapp}` },
     { label: "E-mail", value: contact.email, href: `mailto:${contact.email}` },
-    { label: "Facebook", value: contact.facebook && "Profil klubu", href: contact.facebook },
-    { label: "Instagram", value: contact.instagram && "Profil klubu", href: contact.instagram },
     { label: "Strona", value: club.website.replace(/^https?:\/\/|\/$/g, ""), href: club.website },
   ].filter((row) => row.value);
 
@@ -36,6 +47,9 @@ export default function ClubPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <a href={`tel:+48${contact.phone.replace(/\s/g, "")}`} className="rounded-lg bg-accent px-5 py-2.5 font-semibold text-white hover:bg-accent-hover">
               Zadzwoń: {contact.phone}
+            </a>
+            <a href="#grafik" className="rounded-lg border border-border bg-background/60 px-5 py-2.5 font-semibold hover:border-accent hover:text-accent-text">
+              Grafik zajęć
             </a>
             <a href="#kontakt" className="rounded-lg border border-border bg-background/60 px-5 py-2.5 font-semibold hover:border-accent hover:text-accent-text">
               Jak do nas trafić
@@ -81,6 +95,18 @@ export default function ClubPage() {
         </div>
       </section>
 
+      {/* Grafik */}
+      <section id="grafik" className="scroll-mt-20">
+        <SectionTitle>Grafik zajęć</SectionTitle>
+        <ScheduleTabs schedule={schedule} />
+        <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-accent/40 bg-accent/10 px-4 py-3 text-sm">
+          <span className="font-semibold text-accent-text">
+            {openMat.day} {openMat.time}
+          </span>
+          <span>{openMat.label}</span>
+        </p>
+      </section>
+
       {/* Kadra */}
       <section>
         <SectionTitle>Kadra trenerska</SectionTitle>
@@ -93,6 +119,9 @@ export default function ClubPage() {
               {headCoach.rank && <RankBadge rank={headCoach.rank} />}
             </h3>
             <p className="mt-3 leading-relaxed">{headCoach.bio}</p>
+            <div className="mt-4">
+              <SocialLinks links={coachSocials} label={`Profile: ${headCoach.name}`} />
+            </div>
             {headCoach.achievements && (
               <>
                 <h4 className="mt-5 text-sm font-semibold uppercase tracking-wide text-muted">Osiągnięcia sportowe</h4>
@@ -191,6 +220,8 @@ export default function ClubPage() {
                 </div>
               ))}
             </dl>
+            <p className="mt-5 mb-2 text-xs uppercase tracking-wide text-muted">Obserwuj klub</p>
+            <SocialLinks links={clubSocials} label="Profile klubu" />
             <a
               href={mapLink}
               target="_blank"
