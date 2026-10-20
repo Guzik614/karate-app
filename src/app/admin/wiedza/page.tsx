@@ -14,7 +14,7 @@ export default async function AdminArticlesPage() {
     <>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Artykuły: Teoria i Wiedza</h1>
-        <Link href="/admin/wiedza/nowy" className="rounded-lg bg-accent px-4 py-2 font-semibold text-white">
+        <Link href="/admin/wiedza/nowy" className="rounded-lg bg-accent px-4 py-2 font-semibold text-white hover:bg-accent-hover">
           + Nowy artykuł
         </Link>
       </div>
@@ -22,7 +22,7 @@ export default async function AdminArticlesPage() {
         {articles.map((a) => (
           <li key={a.id} className="flex items-center justify-between gap-4 px-4 py-3">
             <div>
-              <Link href={`/admin/wiedza/${a.id}`} className="font-medium hover:text-accent">
+              <Link href={`/admin/wiedza/${a.id}`} className="font-medium hover:text-accent-text">
                 {a.title}
               </Link>
               <p className="text-sm text-muted">
@@ -31,7 +31,7 @@ export default async function AdminArticlesPage() {
             </div>
             <span
               className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${
-                a.published ? "bg-green-600/15 text-green-600" : "bg-stone-500/15 text-muted"
+                a.published ? "bg-success/15 text-success" : "bg-muted/15 text-muted"
               }`}
             >
               {a.published ? "Opublikowany" : "Szkic"}

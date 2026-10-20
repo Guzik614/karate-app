@@ -36,7 +36,7 @@ export function VideoUpload({ techniqueId }: { techniqueId: string }) {
     return <span className="text-sm text-muted">Wysyłanie… {status.progress}%</span>;
   }
   if (status.kind === "done") {
-    return <span className="text-sm text-green-600">Wysłano. Mux przetwarza wideo (ok. 1 min).</span>;
+    return <span className="text-sm text-success">Wysłano. Mux przetwarza wideo (ok. 1 min).</span>;
   }
 
   return (

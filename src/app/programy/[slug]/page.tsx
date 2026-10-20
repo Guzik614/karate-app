@@ -20,7 +20,7 @@ export default async function ProgramPage({ params }: PageProps<"/programy/[slug
 
   return (
     <article className="space-y-6">
-      <Link href="/programy" className="text-sm text-muted hover:text-accent">
+      <Link href="/programy" className="text-sm text-muted hover:text-accent-text">
         ← Programy
       </Link>
       <header>
@@ -36,7 +36,7 @@ export default async function ProgramPage({ params }: PageProps<"/programy/[slug
               <li key={item.id} className="flex items-start justify-between gap-4 px-4 py-3">
                 <div>
                   {item.technique ? (
-                    <Link href={`/techniki/${item.technique.slug}`} className="font-medium hover:text-accent">
+                    <Link href={`/techniki/${item.technique.slug}`} className="font-medium hover:text-accent-text">
                       {item.technique.name}
                     </Link>
                   ) : (

@@ -20,7 +20,7 @@ export function TopNav() {
     <header className="sticky top-0 z-20 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 font-bold tracking-tight">
-          <span className="text-xl text-accent">極真</span>
+          <span className="text-xl text-accent-text">極真</span>
           <span>Kyokushin Dojo</span>
         </Link>
         <nav className="hidden gap-1 md:flex">
@@ -51,7 +51,7 @@ export function BottomTabs() {
           key={l.href}
           href={l.href}
           className={`flex flex-col items-center gap-0.5 py-2 text-xs ${
-            isActive(pathname, l.href) ? "text-accent" : "text-muted"
+            isActive(pathname, l.href) ? "text-accent-text" : "text-muted"
           }`}
         >
           <span className="text-lg leading-none">{l.icon}</span>

@@ -23,7 +23,7 @@ export function VideoPlayer({ playbackId, title }: Props) {
       streamType="on-demand"
       metadata={{ video_title: title }}
       playbackRates={[0.25, 0.5, 0.75, 1]}
-      accentColor="#c8102e"
+      accentColor="#d01f32"
       className="aspect-video w-full overflow-hidden rounded-xl"
     />
   );

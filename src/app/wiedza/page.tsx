@@ -24,13 +24,13 @@ export default async function KnowledgePage() {
         className="mb-8 flex items-center justify-between rounded-xl border border-accent/40 bg-accent/5 p-5 transition-colors hover:bg-accent/10"
       >
         <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-accent">Słowniczek</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-accent-text">Słowniczek</p>
           <h2 className="text-xl font-semibold">Japońskie pojęcia i techniki</h2>
           <p className="text-sm text-muted">
             {glossary.length} pojęć: komendy, pozycje, ciosy, kopnięcia, bloki i kata.
           </p>
         </div>
-        <span className="text-3xl text-accent">辞</span>
+        <span className="text-3xl text-accent-text">辞</span>
       </Link>
 
       <div className="space-y-8">

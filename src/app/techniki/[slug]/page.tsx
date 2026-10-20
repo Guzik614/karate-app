@@ -20,7 +20,7 @@ export default async function TechniquePage({ params }: PageProps<"/techniki/[sl
 
   return (
     <article className="space-y-6">
-      <Link href={`/techniki?kategoria=${technique.category}`} className="text-sm text-muted hover:text-accent">
+      <Link href={`/techniki?kategoria=${technique.category}`} className="text-sm text-muted hover:text-accent-text">
         ← {TECHNIQUE_CATEGORY_LABELS[technique.category]}
       </Link>
       <header>

@@ -17,7 +17,7 @@ export default async function ArticlePage({ params }: PageProps<"/wiedza/[slug]"
 
   return (
     <article className="mx-auto max-w-3xl">
-      <Link href={`/wiedza#${article.category_slug}`} className="text-sm text-muted hover:text-accent">
+      <Link href={`/wiedza#${article.category_slug}`} className="text-sm text-muted hover:text-accent-text">
         ← Teoria i Wiedza
       </Link>
       <h1 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">{article.title}</h1>

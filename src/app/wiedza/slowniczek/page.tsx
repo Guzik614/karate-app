@@ -10,7 +10,7 @@ export default async function GlossaryPage() {
   const terms = await getGlossary();
   return (
     <>
-      <Link href="/wiedza" className="text-sm text-muted hover:text-accent">
+      <Link href="/wiedza" className="text-sm text-muted hover:text-accent-text">
         ← Teoria i Wiedza
       </Link>
       <div className="mt-3">

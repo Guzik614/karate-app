@@ -19,7 +19,7 @@ export default async function AdminTechniquesPage() {
         {techniques.map((t) => (
           <li key={t.id} className="flex items-center justify-between gap-4 px-4 py-3">
             <div>
-              <Link href={`/techniki/${t.slug}`} className="font-medium hover:text-accent">
+              <Link href={`/techniki/${t.slug}`} className="font-medium hover:text-accent-text">
                 {t.name}
               </Link>
               <p className="text-sm text-muted">

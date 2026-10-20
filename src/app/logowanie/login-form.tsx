@@ -35,16 +35,16 @@ export function LoginForm({ next }: { next: string }) {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="twoj@email.pl"
-        className="w-full rounded-lg border border-border bg-card px-4 py-3 outline-none focus:border-accent"
+        className="w-full rounded-lg border border-border bg-input px-4 py-3 outline-none focus:border-accent"
       />
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white disabled:opacity-60"
+        className="w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white hover:bg-accent-hover disabled:opacity-60"
       >
         {status === "sending" ? "Wysyłanie…" : "Wyślij link"}
       </button>
-      {status === "error" && <p className="text-sm text-accent">Nie udało się wysłać linku. Spróbuj ponownie.</p>}
+      {status === "error" && <p className="text-sm text-accent-text">Nie udało się wysłać linku. Spróbuj ponownie.</p>}
     </form>
   );
 }

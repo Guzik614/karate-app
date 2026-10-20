@@ -7,7 +7,7 @@ import type { Article, KnowledgeCategory } from "@/lib/types";
 import { saveArticle, type ArticleFormState } from "./actions";
 
 const inputClass =
-  "w-full rounded-lg border border-border bg-card px-3 py-2 outline-none focus:border-accent";
+  "w-full rounded-lg border border-border bg-input px-3 py-2 outline-none focus:border-accent";
 
 export function ArticleForm({
   article,
@@ -94,7 +94,7 @@ export function ArticleForm({
           placeholder={"## Nagłówek\n\nTekst akapitu, **pogrubienie**, listy:\n- punkt\n- punkt"}
         />
         {tab === "preview" && (
-          <div className="prose prose-stone min-h-64 max-w-none rounded-lg border border-border bg-card p-4 dark:prose-invert">
+          <div className="prose min-h-64 max-w-none rounded-lg border border-border bg-input p-4">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{body || "_Brak treści_"}</ReactMarkdown>
           </div>
         )}
@@ -105,12 +105,12 @@ export function ArticleForm({
         <span>Opublikowany (widoczny dla wszystkich)</span>
       </label>
 
-      {state.error && <p className="text-sm text-accent">{state.error}</p>}
+      {state.error && <p className="text-sm text-accent-text">{state.error}</p>}
 
       <button
         type="submit"
         disabled={pending}
-        className="rounded-lg bg-accent px-5 py-2.5 font-semibold text-white disabled:opacity-60"
+        className="rounded-lg bg-accent px-5 py-2.5 font-semibold text-white hover:bg-accent-hover disabled:opacity-60"
       >
         {pending ? "Zapisywanie…" : "Zapisz artykuł"}
       </button>

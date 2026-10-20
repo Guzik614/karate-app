@@ -16,7 +16,7 @@ export default async function EditArticlePage({ params }: PageProps<"/admin/wied
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Edycja: {article.title}</h1>
         {article.published && (
-          <Link href={`/wiedza/${article.slug}`} className="text-sm text-muted hover:text-accent">
+          <Link href={`/wiedza/${article.slug}`} className="text-sm text-muted hover:text-accent-text">
             Zobacz na stronie →
           </Link>
         )}
@@ -24,7 +24,7 @@ export default async function EditArticlePage({ params }: PageProps<"/admin/wied
       <ArticleForm article={article} categories={categories} />
       <form action={deleteArticle} className="border-t border-border pt-4">
         <input type="hidden" name="id" value={article.id} />
-        <button type="submit" className="text-sm text-accent hover:underline">
+        <button type="submit" className="text-sm text-accent-text hover:underline">
           Usuń artykuł
         </button>
       </form>

@@ -41,7 +41,7 @@ export function GlossaryBrowser({ terms }: { terms: GlossaryTerm[] }) {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Szukaj: uraken, kopnięcie, seiza…"
-        className="w-full rounded-lg border border-border bg-card px-4 py-3 outline-none focus:border-accent"
+        className="w-full rounded-lg border border-border bg-input px-4 py-3 outline-none focus:border-accent"
       />
       <div className="flex gap-2 overflow-x-auto pb-1">
         <Chip active={category === "all"} onClick={() => setCategory("all")}>

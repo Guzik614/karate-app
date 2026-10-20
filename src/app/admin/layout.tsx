@@ -21,10 +21,10 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
     <div className="space-y-6">
       <nav className="flex gap-2 border-b border-border pb-3 text-sm">
         <span className="mr-2 font-semibold">Panel admina:</span>
-        <Link href="/admin/wiedza" className="hover:text-accent">
+        <Link href="/admin/wiedza" className="hover:text-accent-text">
           Artykuły
         </Link>
-        <Link href="/admin/techniki" className="hover:text-accent">
+        <Link href="/admin/techniki" className="hover:text-accent-text">
           Techniki i wideo
         </Link>
       </nav>

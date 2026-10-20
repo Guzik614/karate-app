@@ -43,25 +43,25 @@ const SECTIONS = [
 export default function Home() {
   return (
     <div className="space-y-10">
-      <section className="rounded-2xl bg-gradient-to-br from-stone-900 to-stone-800 p-8 text-stone-50">
-        <p className="text-4xl font-bold text-[#ef3340]">押忍</p>
+      <section className="relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-card to-input p-8">
+        <p className="text-4xl font-bold text-accent-text">押忍</p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">
           Trenuj Kyokushin w dojo i w domu
         </h1>
-        <p className="mt-3 max-w-xl text-stone-300">
+        <p className="mt-3 max-w-xl text-muted">
           Techniki wideo w zwolnionym tempie, programy treningowe i wiedza, która przyda się na
           każdym egzaminie.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href="/techniki"
-            className="rounded-lg bg-[#c8102e] px-5 py-2.5 font-semibold text-white hover:bg-[#a50d26]"
+            className="rounded-lg bg-accent px-5 py-2.5 font-semibold text-white hover:bg-accent-hover"
           >
             Zacznij trening
           </Link>
           <Link
             href="/wiedza"
-            className="rounded-lg border border-stone-600 px-5 py-2.5 font-semibold hover:border-stone-300"
+            className="rounded-lg border border-border px-5 py-2.5 font-semibold hover:border-accent hover:text-accent-text"
           >
             Teoria i Wiedza
           </Link>
