@@ -41,7 +41,7 @@ const SECTIONS = [
   {
     href: "/klub",
     title: "Dragon Fight Club Radom",
-    subtitle: "O klubie, trenerze, zdjęcia i kontakt.",
+    subtitle: "Kadra, Akademia 50+, zdjęcia sali i kontakt.",
     meta: "Klub",
   },
 ];
