@@ -52,8 +52,8 @@ export const team: TeamMember[] = [
     photo: "/klub/lukasz-guzik.jpg",
     bio: "Wszechstronny zawodnik i instruktor. W 2011 roku założył Dragon Fight Club Radom, kontynuując rodzinną tradycję Kyokushin.",
     achievements: [
-      "Multimedalista Mistrzostw Polski w karate Kyokushin",
-      "Multimedalista Mistrzostw Polski w kickboxingu (formuła K1)",
+      "Medalista Mistrzostw Polski w karate Kyokushin",
+      "Medalista Mistrzostw Polski w kickboxingu (formuła K1)",
       "Wicemistrz Pucharu Europy w MMA",
       "Wicemistrz Polski ADCC w grapplingu",
     ],
