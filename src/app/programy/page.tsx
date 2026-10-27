@@ -98,25 +98,27 @@ export default async function ProgramsPage() {
 }
 
 function GradeCard({ grade, programs }: { grade: Grade; programs: Program[] }) {
+  const ready = grade.requirements || programs.length;
   return (
-    <li className={`rounded-xl border border-border bg-card p-3 ${programs.length ? "" : "opacity-60"}`}>
-      <div className="flex items-center justify-between gap-3">
-        <span className="font-semibold tabular-nums">{grade.label}</span>
-        <Belt grade={grade} className="h-4 w-28" />
-      </div>
-      {programs.length ? (
-        <ul className="mt-2 space-y-1">
+    <li>
+      <Link
+        href={`/programy/stopien/${grade.code}`}
+        className={`group block h-full rounded-xl border border-border bg-card p-3 transition-colors hover:border-accent hover:bg-card-hover ${ready ? "" : "opacity-60"}`}
+      >
+        <div className="flex items-center justify-between gap-3">
+          <span className="font-semibold tabular-nums group-hover:text-accent-text">{grade.label}</span>
+          <Belt grade={grade} className="h-4 w-28" />
+        </div>
+        <ul className="mt-2 space-y-0.5 text-sm">
+          {grade.requirements && <li className="text-accent-text">Wymagania egzaminacyjne →</li>}
           {programs.map((p) => (
-            <li key={p.id}>
-              <Link href={`/programy/${p.slug}`} className="text-sm font-medium text-accent-text hover:underline">
-                {p.title} →
-              </Link>
+            <li key={p.id} className="text-muted">
+              Plan: {p.title}
             </li>
           ))}
+          {!ready && <li className="text-muted">Wymagania w przygotowaniu</li>}
         </ul>
-      ) : (
-        <p className="mt-2 text-sm text-muted">Program w przygotowaniu</p>
-      )}
+      </Link>
     </li>
   );
 }

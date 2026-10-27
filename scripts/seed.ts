@@ -28,20 +28,8 @@ async function run<T>(label: string, promise: PromiseLike<{ data: T; error: unkn
 }
 
 async function main() {
-  // Stopnie aktualizujemy zawsze, ale bez wymagań egzaminacyjnych, które uzupełnia admin w bazie.
-  await run(
-    "stopnie (junior i senior)",
-    supabase
-      .from("grades")
-      .upsert(
-        seedGrades.map((grade) => {
-          const { requirements, ...rest } = grade;
-          void requirements;
-          return rest;
-        }),
-        { onConflict: "code" },
-      ),
-  );
+  // Stopnie razem z wymaganiami egzaminacyjnymi KWF (src/content/grade-requirements.ts).
+  await run("stopnie i wymagania egzaminacyjne", supabase.from("grades").upsert(seedGrades, { onConflict: "code" }));
   await run(
     "kategorie wiedzy",
     supabase.from("knowledge_categories").upsert(knowledgeCategories, { onConflict: "slug" }),
