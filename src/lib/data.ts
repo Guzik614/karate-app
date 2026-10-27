@@ -1,5 +1,6 @@
 import "server-only";
 import { seedGlossary } from "@/content/glossary";
+import { seedGrades } from "@/content/grades";
 import { knowledgeCategories, seedArticles } from "@/content/knowledge";
 import { seedPrograms, seedTechniques } from "@/content/training";
 import { isSupabaseConfigured } from "./supabase/env";
@@ -7,6 +8,7 @@ import { createClient } from "./supabase/server";
 import type {
   Article,
   GlossaryTerm,
+  Grade,
   KnowledgeCategory,
   Program,
   ProgramItem,
@@ -187,6 +189,22 @@ export async function getGlossary(): Promise<GlossaryTerm[]> {
     .select("id, term, kanji, meaning, category, description")
     .order("sort_order")
     .order("term");
+  if (error) throw error;
+  return data;
+}
+
+// ───────────────────────── Stopnie ─────────────────────────
+
+export async function getGrades(): Promise<Grade[]> {
+  if (!isSupabaseConfigured) return seedGrades;
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("grades")
+    .select(
+      "code, track, kyu, dan, sub, label, belt_color, stripe_color, red_stripes, gold_stripes, min_age, max_age, sort_order, requirements",
+    )
+    .order("track")
+    .order("sort_order");
   if (error) throw error;
   return data;
 }

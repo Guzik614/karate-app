@@ -136,25 +136,54 @@ Trening kończy recytacja **Dojo Kun**, mokuso i ukłony. Po treningu dziękujem
   },
   {
     slug: "system-stopni-kyu-dan",
-    title: "System stopni: kyu i dan",
-    excerpt: "Kolory pasów w Kyokushin i kolejność stopni uczniowskich oraz mistrzowskich.",
+    title: "System stopni: Junior i Senior",
+    excerpt:
+      "Dwa tory stopni: juniorzy do 15 lat zdobywają kyu w podstopniach (10.1, 10.2…), seniorzy od 16 lat pełne kyu i dan.",
     category_slug: "stopnie-i-egzaminy",
     published: true,
     sort_order: 1,
-    body: `W Kyokushin stopnie uczniowskie (**kyu**) liczy się w dół, od 10. do 1. kyu. Potem zaczynają się stopnie mistrzowskie (**dan**), liczone w górę.
+    body: `W Kyokushin stopnie uczniowskie (**kyu**) liczy się w dół, od 10. do 1. kyu. Potem zaczynają się stopnie mistrzowskie (**dan**), liczone w górę. W naszym klubie obowiązują dwa tory: **Junior** i **Senior**.
+
+Pełną rozpiskę z rysunkami pasów znajdziesz na stronie [Stopnie i pasy](/wiedza/stopnie).
+
+## Junior: do 15. roku życia
+
+Dzieci i młodzież zdobywają każde kyu od 10. do 5. w dwóch krokach. Podstopień oznacza **czerwona belka** na pasie.
+
+| Stopień | Pas |
+| --- | --- |
+| 10.1 kyu | pomarańczowy + 1 czerwona belka |
+| 10.2 kyu | pomarańczowy + 2 czerwone belki |
+| 9.1 kyu | pomarańczowy + niebieska belka + 1 czerwona belka |
+| 9.2 kyu | pomarańczowy + niebieska belka + 2 czerwone belki |
+| 8.1 / 8.2 kyu | niebieski + 1 / 2 czerwone belki |
+| 7.1 / 7.2 kyu | niebieski + żółta belka + 1 / 2 czerwone belki |
+| 6.1 / 6.2 kyu | żółty + 1 / 2 czerwone belki |
+| 5.1 / 5.2 kyu | żółty + zielona belka + 1 / 2 czerwone belki |
+
+Junior kończy się na 5. kyu. Po ukończeniu 16 lat zawodnik przechodzi do toru Senior.
+
+## Senior: od 16. roku życia
+
+Seniorzy zdobywają pełne kyu, bez podstopni. **Egzaminy na 4. kyu i wyższe stopnie mogą zdawać wyłącznie osoby, które ukończyły 16 lat.**
 
 | Stopień | Pas |
 | --- | --- |
 | bez stopnia | biały |
-| 10 i 9 kyu | pomarańczowy |
-| 8 i 7 kyu | niebieski |
-| 6 i 5 kyu | żółty |
-| 4 i 3 kyu | zielony |
-| 2 i 1 kyu | brązowy |
-| 1 dan i wyżej | czarny |
+| 10 kyu | pomarańczowy |
+| 9 kyu | pomarańczowy + niebieska belka |
+| 8 kyu | niebieski |
+| 7 kyu | niebieski + żółta belka |
+| 6 kyu | żółty |
+| 5 kyu | żółty + zielona belka |
+| 4 kyu | zielony |
+| 3 kyu | zielony + brązowa belka |
+| 2 kyu | brązowy |
+| 1 kyu | brązowy + złota belka |
+| 1 dan i wyżej | czarny + złote belki (po jednej na każdy dan) |
 
-Wyższy stopień w każdej parze (9, 7, 5, 3 i 1 kyu) oznacza się dodatkowym paskiem na końcu pasa.
+Kolorowa belka na nieparzystym kyu ma kolor kolejnego pasa.
 
-> Wymagania egzaminacyjne różnią się między organizacjami. Dodaj tu listę technik i kata na każdy stopień obowiązującą w Twoim klubie.`,
+> Wymagania egzaminacyjne na poszczególne stopnie admin uzupełni w bazie (tabela grades).`,
   },
 ];

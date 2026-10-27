@@ -90,3 +90,35 @@ export const GLOSSARY_CATEGORY_LABELS: Record<GlossaryCategory, string> = {
   liczenie: "Liczenie",
   "ogólne": "Pojęcia ogólne",
 };
+
+export type GradeTrack = "junior" | "senior";
+
+export type BeltColor = "white" | "orange" | "blue" | "yellow" | "green" | "brown" | "black" | "gold";
+
+export type Grade = {
+  code: string;
+  track: GradeTrack;
+  kyu: number | null;
+  dan: number | null;
+  sub: number | null;
+  label: string;
+  belt_color: BeltColor;
+  stripe_color: BeltColor | null;
+  red_stripes: number;
+  gold_stripes: number;
+  min_age: number | null;
+  max_age: number | null;
+  sort_order: number;
+  requirements: string | null;
+};
+
+export const BELT_COLOR_LABELS: Record<BeltColor, string> = {
+  white: "biały",
+  orange: "pomarańczowy",
+  blue: "niebieski",
+  yellow: "żółty",
+  green: "zielony",
+  brown: "brązowy",
+  black: "czarny",
+  gold: "złoty",
+};
