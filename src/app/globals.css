@@ -72,3 +72,117 @@ textarea::placeholder {
 .prose h2 {
   color: var(--accent-text);
 }
+
+/* ───────── Strona główna: animowany kanku i grafiki kafelków ───────── */
+.kanku {
+  overflow: visible;
+}
+.kanku-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 8;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: kanku-draw 1.6s ease-out forwards;
+}
+.kanku-inner {
+  stroke: var(--foreground);
+  stroke-width: 5;
+  animation-delay: 0.5s;
+}
+.kanku-part {
+  fill: var(--accent);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: kanku-pop 0.5s ease-out forwards;
+}
+.kanku-part-1 {
+  animation-delay: 1.3s;
+}
+.kanku-part-2 {
+  animation-delay: 1.6s;
+}
+.kanku-glow {
+  transform-origin: 100px 100px;
+  animation: kanku-pulse 4s ease-in-out 2.2s infinite;
+}
+.kanku-orbit {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 2;
+  stroke-dasharray: 4 10;
+  transform-origin: 100px 100px;
+  animation: kanku-spin 40s linear infinite;
+}
+.kanku-wave {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0;
+  transform-origin: 100px 100px;
+  animation: kanku-wave 4s ease-out 2.2s infinite;
+}
+@keyframes kanku-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes kanku-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes kanku-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 70%, transparent));
+    transform: scale(1.03);
+  }
+}
+@keyframes kanku-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes kanku-wave {
+  from {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+/* Po najechaniu na kafelek karateka wykonuje technikę. */
+.art-strike {
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1.4);
+}
+.group:hover .art-strike {
+  transform: translateX(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kanku *,
+  .art-strike {
+    animation: none !important;
+    transition: none !important;
+  }
+  .kanku-ring {
+    stroke-dashoffset: 0;
+  }
+  .kanku-part {
+    opacity: 1;
+  }
+}

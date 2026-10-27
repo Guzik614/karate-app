@@ -38,6 +38,9 @@ export default function ClubPage() {
       <section className="relative overflow-hidden rounded-2xl border border-border">
         <Image src={club.heroImage} alt="Sala Dragon Fight Club" fill priority sizes="(min-width: 1024px) 64rem, 100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/30" />
+        <div className="pointer-events-none absolute top-1/2 right-6 hidden h-56 w-64 -translate-y-1/2 md:block lg:right-12">
+          <Image src="/klub/logo-dfc.png" alt="" fill sizes="16rem" className="object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.7)]" />
+        </div>
         <div className="relative px-6 py-12 md:px-10 md:py-16">
           <p className="text-xs font-medium uppercase tracking-widest text-accent-text">
             Od {club.founded} roku · {club.traditionYears} lat tradycji
