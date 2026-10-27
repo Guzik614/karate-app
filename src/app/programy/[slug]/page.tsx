@@ -73,7 +73,7 @@ export default async function ProgramPage({ params }: PageProps<"/programy/[slug
                       )}
                     </>
                   ) : (
-                    <span className="font-medium">{item.notes ?? "Ćwiczenie"}</span>
+                    <ExerciseNote text={item.notes ?? "Ćwiczenie"} />
                   )}
                 </div>
                 {item.reps && <span className="shrink-0 text-sm font-medium">{item.reps}</span>}
@@ -83,5 +83,29 @@ export default async function ProgramPage({ params }: PageProps<"/programy/[slug
         </section>
       ))}
     </article>
+  );
+}
+
+// „Rozgrzewka: Pajacyki” → mała etykieta etapu i nazwa ćwiczenia;
+// „Teoria i komendy: …” → pogrubiona nazwa i opis pod spodem.
+const PHASES = ["Rozgrzewka", "Schłodzenie"];
+
+function ExerciseNote({ text }: { text: string }) {
+  const i = text.indexOf(": ");
+  if (i < 0 || i > 30) return <span className="font-medium">{text}</span>;
+  const [label, rest] = [text.slice(0, i), text.slice(i + 2)];
+  if (PHASES.includes(label)) {
+    return (
+      <>
+        <p className="text-xs font-medium uppercase tracking-wide text-accent-text">{label}</p>
+        <span className="font-medium">{rest}</span>
+      </>
+    );
+  }
+  return (
+    <>
+      <span className="font-medium">{label}</span>
+      <p className="text-sm text-muted">{rest}</p>
+    </>
   );
 }
