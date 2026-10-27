@@ -666,9 +666,15 @@ export const examElements = [
   },
 ];
 
-// Egzaminy na kyu odbywają się 2 razy w roku, więc między stopniami jest pół roku treningów.
+// Egzaminy na kyu odbywają się 2 razy w roku: do 4 kyu co pół roku, od 4 kyu do 1 kyu co rok.
 export const KYU_MIN_TRAINING =
-  "Minimum pół roku treningów od poprzedniego egzaminu (egzaminy odbywają się 2 razy w roku)";
+  "Staż: minimum pół roku treningów między egzaminami (egzaminy 2 razy w roku), od 4 kyu do 1 kyu minimum rok";
+
+export function kyuMinTraining(kyu: number) {
+  return kyu < 4
+    ? "minimum rok treningów od poprzedniego egzaminu"
+    : "minimum pół roku treningów od poprzedniego egzaminu";
+}
 
 export const examFormalRequirements = [
   KYU_MIN_TRAINING,

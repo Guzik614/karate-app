@@ -5,7 +5,7 @@ import { Belt, beltDescription } from "@/components/belt";
 import { CardLink } from "@/components/card-link";
 import { TechniqueVideoButton } from "@/components/technique-video-button";
 import {
-  KYU_MIN_TRAINING,
+  kyuMinTraining,
   getGradeRequirements,
   techniqueName,
   techniqueSlug,
@@ -110,7 +110,7 @@ export default async function GradePrepPage({
             </dl>
             {grade.kyu !== null && (
               <p className="mt-5 text-sm text-muted">
-                Staż: {KYU_MIN_TRAINING.toLowerCase()}.
+                Staż: {kyuMinTraining(grade.kyu)}.
               </p>
             )}
             <p className="mt-2 text-sm text-muted">
