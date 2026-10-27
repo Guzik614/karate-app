@@ -1,5 +1,5 @@
 -- System stopni z dwoma torami:
---   junior: do 15. roku życia, kyu z podstopniami (np. 10.1, 10.2) od 10. do 5. kyu,
+--   junior: do 15. roku życia, kyu z podstopniami (10.1, 10.2, 10.3) od 10. do 5. kyu,
 --   senior: od 16. roku życia, pełne kyu od 10. do 1. oraz stopnie dan.
 -- Stopnie od 4. kyu w górę istnieją tylko w torze senior (min_age = 16).
 
@@ -8,7 +8,7 @@ create table public.grades (
   track text not null check (track in ('junior', 'senior')),
   kyu int check (kyu between 1 and 10),
   dan int check (dan between 1 and 10),
-  sub int check (sub in (1, 2)),        -- podstopień juniora (liczba czerwonych belek)
+  sub int check (sub between 1 and 3),  -- podstopień juniora (liczba czerwonych belek)
   label text not null,                  -- np. '10.1 kyu', '4 kyu', '1 dan'
   belt_color text not null,             -- kolor pasa
   stripe_color text,                    -- kolorowa belka (kolor kolejnego pasa)

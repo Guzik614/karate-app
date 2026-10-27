@@ -55,11 +55,14 @@ export function Belt({ grade, className }: { grade: Pick<Grade, "belt_color" | "
 export function beltDescription(grade: Pick<Grade, "belt_color" | "stripe_color" | "red_stripes" | "gold_stripes">) {
   const parts = [`pas ${BELT_COLOR_LABELS[grade.belt_color]}`];
   if (grade.stripe_color) parts.push(`${STRIPE_LABELS[grade.stripe_color]} belka`);
-  if (grade.red_stripes) parts.push(`${grade.red_stripes} ${grade.red_stripes === 1 ? "czerwona belka" : "czerwone belki"}`);
-  if (grade.gold_stripes) {
-    parts.push(
-      `${grade.gold_stripes} ${grade.gold_stripes === 1 ? "złota belka" : grade.gold_stripes < 5 ? "złote belki" : "złotych belek"}`,
-    );
-  }
+  if (grade.red_stripes) parts.push(stripes(grade.red_stripes, "czerwona belka", "czerwone belki", "czerwonych belek"));
+  if (grade.gold_stripes) parts.push(stripes(grade.gold_stripes, "złota belka", "złote belki", "złotych belek"));
   return parts.join(" + ");
+}
+
+// Polska odmiana liczebnika: 1 belka, 2–4 belki, 5+ belek (ale 22–24 belki).
+function stripes(n: number, one: string, few: string, many: string) {
+  if (n === 1) return `1 ${one}`;
+  const isFew = n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14);
+  return `${n} ${isFew ? few : many}`;
 }

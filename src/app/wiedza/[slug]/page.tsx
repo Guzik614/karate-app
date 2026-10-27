@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { GradeTables } from "@/components/grade-tables";
 import { Markdown } from "@/components/markdown";
-import { getArticleBySlug } from "@/lib/data";
+import { GRADES_ARTICLE_SLUG } from "@/content/grades";
+import { getArticleBySlug, getGrades } from "@/lib/data";
 
 export async function generateMetadata({ params }: PageProps<"/wiedza/[slug]">): Promise<Metadata> {
   const { slug } = await params;
@@ -14,6 +16,7 @@ export default async function ArticlePage({ params }: PageProps<"/wiedza/[slug]"
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
+  const grades = slug === GRADES_ARTICLE_SLUG ? await getGrades() : null;
 
   return (
     <article className="mx-auto max-w-3xl">
@@ -25,6 +28,11 @@ export default async function ArticlePage({ params }: PageProps<"/wiedza/[slug]"
       <div className="mt-8">
         <Markdown>{article.body}</Markdown>
       </div>
+      {grades && (
+        <div className="mt-10">
+          <GradeTables grades={grades} />
+        </div>
+      )}
     </article>
   );
 }

@@ -1,13 +1,21 @@
 import type { BeltColor, Grade } from "@/lib/types";
 
 // System stopni Kyokushin w dwóch torach.
-// Junior (do 15 lat): kyu 10–5, każde w dwóch podstopniach oznaczanych czerwonymi belkami (np. 10.1, 10.2).
+// Junior (do 15 lat): kyu 10–5, każde w trzech podstopniach oznaczanych czerwonymi belkami (10.1, 10.2, 10.3).
 // Senior (od 16 lat): pełne kyu 10–1 i stopnie dan. Stopnie od 4. kyu w górę są tylko dla seniorów.
 // `npm run db:seed` wgrywa tę listę do tabeli grades.
 
 export const JUNIOR_MAX_AGE = 15;
 export const SENIOR_MIN_AGE = 16;
 export const LOWEST_SENIOR_ONLY_KYU = 4;
+export const JUNIOR_SUBGRADES = 3;
+export const MAX_DAN = 10;
+
+// Artykuł w Teorii i Wiedzy, pod którym wyświetlamy pełne tabele stopni.
+export const GRADES_ARTICLE_SLUG = "system-stopni-kyu-dan";
+
+// Kyu dostępne w torze Junior. Wyższe kyu (od 4.) zdobywa się dopiero jako senior.
+const JUNIOR_KYU = [10, 9, 8, 7, 6, 5];
 
 // Kolor pasa i kolorowej belki (kolor kolejnego pasa) dla każdego kyu.
 const KYU_BELTS: Record<number, { belt: BeltColor; stripe: BeltColor | null }> = {
@@ -22,8 +30,6 @@ const KYU_BELTS: Record<number, { belt: BeltColor; stripe: BeltColor | null }> =
   2: { belt: "brown", stripe: null },
   1: { belt: "brown", stripe: "gold" },
 };
-
-const MAX_DAN_LISTED = 5;
 
 function kyuGrade(track: Grade["track"], kyu: number, sub: number | null, sortOrder: number): Grade {
   const { belt, stripe } = KYU_BELTS[kyu];
@@ -45,14 +51,13 @@ function kyuGrade(track: Grade["track"], kyu: number, sub: number | null, sortOr
   };
 }
 
-const junior: Grade[] = [10, 9, 8, 7, 6, 5].flatMap((kyu, i) => [
-  kyuGrade("junior", kyu, 1, i * 2 + 1),
-  kyuGrade("junior", kyu, 2, i * 2 + 2),
-]);
+const junior: Grade[] = JUNIOR_KYU.flatMap((kyu, i) =>
+  Array.from({ length: JUNIOR_SUBGRADES }, (_, s) => kyuGrade("junior", kyu, s + 1, i * JUNIOR_SUBGRADES + s + 1)),
+);
 
 const seniorKyu: Grade[] = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map((kyu, i) => kyuGrade("senior", kyu, null, i + 1));
 
-const dan: Grade[] = Array.from({ length: MAX_DAN_LISTED }, (_, i) => ({
+const dan: Grade[] = Array.from({ length: MAX_DAN }, (_, i) => ({
   code: `D-${i + 1}`,
   track: "senior" as const,
   kyu: null,
