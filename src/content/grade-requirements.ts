@@ -2,6 +2,7 @@
 // Źródła:
 //   juniorzy 10.1–9.3: https://www.karate.org.pl/kyokushin/wym_jun.php
 //   juniorzy 8.1–5.3:  tabela „Wymagania do 14 lat” w tym samym układzie (karatemarkowa.pl)
+//   Całość juniorów sprawdzona z listą „Wymagania do 15 roku życia” od Senseia Łukasza Guzika.
 //   dan:               https://www.karate.org.pl/kyokushin/wym_sen.php („Aktualne wymagania”)
 // Seniorskie kyu (10–1) organizacja publikuje jako grafikę – dopiszemy je po otrzymaniu tabeli.
 // Każdy stopień obejmuje też wymagania wszystkich niższych stopni.
@@ -50,7 +51,7 @@ const requirements: Record<string, Requirements> = {
     uderzenia: "Uraken-shomen-uchi",
     bloki: "Morote gedan-barai",
     kopniecia: "Hiza-geri chudan plus kiai",
-    renraku: "Krok w tył do zenkutsu-dachi i powrót do fudo-dachi",
+    renraku: "Krok w tył do zenkutsu-dachi z morote-gedan-barai / gedan-barai i powrót do fudo-dachi",
     sprawnosc: "10 skłonów w przód z leżenia na plecach, ręce dowolnie.",
     teoria: "Pozycja seiza: siadanie i wstawanie, ukłony. Znaczenie słowa Naore – powrót.",
   },
@@ -61,7 +62,7 @@ const requirements: Record<string, Requirements> = {
     kopniecia: "Hiza-geri jodan plus kiai",
     renraku: "Krok w tył do zenkutsu-dachi z morote gedan-barai / gedan-barai i powrót do fudo-dachi",
     sprawnosc: "10 ugięć ramion z leżenia przodem w podporze na dłoniach i kolanach.",
-    teoria: "Znaczenie słowa Karate: Kara – pusty, Te – ręka. Znaczenie słowa Osu – akceptacja, pozdrowienie itp.",
+    teoria: "Znaczenie słów karate i osu.",
   },
   "J-9.1": {
     pozycje: "Heisoku-dachi",
@@ -88,7 +89,7 @@ const requirements: Record<string, Requirements> = {
     uderzenia: "Seiken-ago-uchi",
     bloki: "Uchi-uke",
     kopniecia: "Mae-geri chudan",
-    renraku: "Trzy kroki w przód w zenkutsu-dachi z oi-tsuki / gyaku-tsuki / uke, obrót z gedan-barai",
+    renraku: "Trzy kroki w przód w zenkutsu-dachi z oi-tsuki / uke, obrót z gedan-barai",
     sprawnosc:
       "10 ugięć ramion z leżenia przodem w podporze na pięściach i kolanach. 10 wahnięć w formie kołyski na plecach z przysiadu, ręce pod kątem 45° amortyzują pad w tył.",
     teoria: "Znaczenie słowa Kyoku-shin-kai.",
@@ -96,6 +97,7 @@ const requirements: Record<string, Requirements> = {
   "J-8.1": {
     pozycje: "Kokutsu-dachi",
     uderzenia: "Shuto-sakotsu-uchi-komi",
+    bloki: "Soto-keage",
     kopniecia: "Soto-keage",
     renraku: "Trzy kroki w przód w zenkutsu-dachi z keri, obrót z morote gedan-barai",
     sprawnosc: "10 przewrotów w przód. 30 sekund mostka w tył z leżenia na plecach.",
