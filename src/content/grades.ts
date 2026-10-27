@@ -29,7 +29,7 @@ const KYU_BELTS: Record<number, { belt: BeltColor; stripe: BeltColor | null }> =
   4: { belt: "green", stripe: null },
   3: { belt: "green", stripe: "brown" },
   2: { belt: "brown", stripe: null },
-  1: { belt: "brown", stripe: "gold" },
+  1: { belt: "brown", stripe: "black" },
 };
 
 function kyuGrade(track: Grade["track"], kyu: number, sub: number | null, sortOrder: number): Grade {
