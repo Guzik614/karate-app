@@ -738,25 +738,16 @@ const requirements: Record<string, GradeRequirements> = {
 export const examElements = [
   { name: "Kihon", description: "techniki podstawowe w miejscu" },
   { name: "Ido geiko", description: "techniki w poruszaniu się" },
+  { name: "Kihon kumite", description: "techniki do walki ćwiczone z partnerem" },
   { name: "Kata", description: "formy obowiązkowe na dany stopień" },
+  { name: "Sprawność fizyczna", description: "pompki, brzuszki, przysiady, skoki" },
+  { name: "Tameshiwari", description: "testy łamania, zazwyczaj na wyższe stopnie (brązowe i czarne pasy)" },
   { name: "Kumite", description: "walka kontaktowa" },
-  {
-    name: "Tameshiwari",
-    description:
-      "testy łamania, zazwyczaj na wyższe stopnie (brązowe i czarne pasy)",
-  },
-  {
-    name: "Sprawność fizyczna",
-    description: "pompki, brzuszki, przysiady, skoki",
-  },
 ];
 
 // Pierwsze stopnie (Junior 10.1, Senior 10 kyu): 3 miesiące treningów przed pierwszym egzaminem.
 // Potem egzaminy 2 razy w roku: do 4 kyu co pół roku, od 4 kyu do 1 kyu co rok.
 export const FIRST_GRADE_CODES = ["J-10.1", "S-10"];
-
-export const KYU_MIN_TRAINING =
-  "Staż: minimum 3 miesiące treningów przed pierwszym egzaminem, potem pół roku między egzaminami (egzaminy 2 razy w roku), od 4 kyu do 1 kyu minimum rok";
 
 export function kyuMinTraining(code: string, kyu: number) {
   if (FIRST_GRADE_CODES.includes(code)) return "minimum 3 miesiące treningów przed pierwszym egzaminem";
@@ -766,10 +757,11 @@ export function kyuMinTraining(code: string, kyu: number) {
 }
 
 export const examFormalRequirements = [
-  KYU_MIN_TRAINING,
+  "Staż przed pierwszym egzaminem: minimum 3 miesiące treningu",
+  "Staż między egzaminami: minimum pół roku (egzaminy 2 razy w roku), od 4 kyu do 1 kyu minimum rok",
   "Opłacone składki członkowskie",
   "Zgoda instruktora na przystąpienie do egzaminu",
-  "Oficjalny paszport KWF (na wyższe stopnie)",
+  "Oficjalny paszport KWF na stopnie mistrzowskie (dan)",
 ];
 
 const HIGHER_DAN_NOTE = "Tabela KWF nie podaje wymagań na ten stopień.";
