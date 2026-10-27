@@ -4,12 +4,14 @@ import { notFound } from "next/navigation";
 import { Belt, beltDescription } from "@/components/belt";
 import { CardLink } from "@/components/card-link";
 import { TechniqueVideoButton } from "@/components/technique-video-button";
+import { TheoryQuiz } from "@/components/theory-quiz";
 import {
   kyuMinTraining,
   getGradeRequirements,
   techniqueName,
   techniqueSlug,
 } from "@/content/grade-requirements";
+import { QUIZ_PASS_PERCENT, getTheoryQuiz } from "@/content/theory-quiz";
 import { getGrades, getPrograms, getTechniques } from "@/lib/data";
 import type { Grade } from "@/lib/types";
 
@@ -44,6 +46,7 @@ export default async function GradePrepPage({
   const programs = allPrograms.filter((p) => p.grade_code === grade.code);
   const videos = new Map(techniques.map((t) => [t.slug, t]));
   const requirements = getGradeRequirements(grade.code);
+  const quiz = requirements?.sections.length ? getTheoryQuiz(grade.code) : [];
 
   return (
     <article className="mx-auto max-w-3xl space-y-8">
@@ -126,6 +129,16 @@ export default async function GradePrepPage({
           </p>
         )}
       </section>
+
+      {quiz.length > 0 && (
+        <section id="quiz" className="scroll-mt-20 rounded-xl border border-border bg-card p-5">
+          <h2 className="mb-1 text-xl font-semibold">Quiz z teorii</h2>
+          <p className="mb-5 text-sm text-muted">
+            Sprawdź, czy znasz teorię na {grade.label}. Pytania obejmują też powtórkę z niższych stopni.
+          </p>
+          <TheoryQuiz code={grade.code} questions={quiz} passPercent={QUIZ_PASS_PERCENT} />
+        </section>
+      )}
 
       {programs.length > 0 && (
         <section>
