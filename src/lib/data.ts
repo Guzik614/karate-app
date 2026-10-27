@@ -75,12 +75,13 @@ export async function getPrograms(): Promise<Program[]> {
       description: p.description,
       level: p.level,
       duration_weeks: p.duration_weeks,
+      grade_code: p.grade_code,
     }));
   }
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("programs")
-    .select("id, slug, title, description, level, duration_weeks")
+    .select("id, slug, title, description, level, duration_weeks, grade_code")
     .order("created_at");
   if (error) throw error;
   return data;
@@ -110,7 +111,7 @@ export async function getProgram(
   const supabase = await createClient();
   const { data: program, error } = await supabase
     .from("programs")
-    .select("id, slug, title, description, level, duration_weeks")
+    .select("id, slug, title, description, level, duration_weeks, grade_code")
     .eq("slug", slug)
     .maybeSingle();
   if (error) throw error;

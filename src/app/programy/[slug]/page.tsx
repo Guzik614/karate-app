@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProgram } from "@/lib/data";
+import { Belt } from "@/components/belt";
+import { getGrades, getProgram } from "@/lib/data";
 import type { ProgramItem } from "@/lib/types";
 
 export async function generateMetadata({ params }: PageProps<"/programy/[slug]">): Promise<Metadata> {
@@ -15,6 +16,7 @@ export default async function ProgramPage({ params }: PageProps<"/programy/[slug
   const result = await getProgram(slug);
   if (!result) notFound();
   const { program, items } = result;
+  const grade = program.grade_code ? (await getGrades()).find((g) => g.code === program.grade_code) : undefined;
 
   const days = Map.groupBy(items, (item: ProgramItem) => item.day);
 
@@ -24,6 +26,12 @@ export default async function ProgramPage({ params }: PageProps<"/programy/[slug
         ← Programy
       </Link>
       <header>
+        {grade && (
+          <p className="mb-2 flex items-center gap-3 text-sm font-medium text-accent-text">
+            <Belt grade={grade} className="h-4 w-28" />
+            Przygotowanie do {grade.label} ({grade.track === "junior" ? "Junior" : grade.dan ? "Dan" : "Senior"})
+          </p>
+        )}
         <h1 className="text-3xl font-bold tracking-tight">{program.title}</h1>
         {program.description && <p className="mt-2 max-w-2xl text-muted">{program.description}</p>}
       </header>

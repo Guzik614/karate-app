@@ -1,10 +1,12 @@
 import type { Technique } from "@/lib/types";
+import { requirementTechniques } from "./grade-requirements";
+import { seedGrades } from "./grades";
 
 // Przykładowe techniki i program. Wideo podpinasz w panelu admina (upload do Mux).
 
 type SeedTechnique = Omit<Technique, "id" | "mux_playback_id">;
 
-export const seedTechniques: SeedTechnique[] = [
+const baseTechniques: SeedTechnique[] = [
   {
     slug: "seiken-chudan-tsuki",
     name: "Seiken chudan tsuki",
@@ -72,14 +74,56 @@ export const seedTechniques: SeedTechnique[] = [
   },
 ];
 
+// Każda technika z wymagań egzaminacyjnych dostaje własny wpis, do którego admin podpina film.
+const gradeLabel = new Map(seedGrades.map((g) => [g.code, g.label]));
+const baseSlugs = new Set(baseTechniques.map((t) => t.slug));
+
+export const seedTechniques: SeedTechnique[] = [
+  ...baseTechniques,
+  // Najpierw seniorzy i dan, żeby nazwy technik pochodziły z tabeli KWF.
+  ...requirementTechniques([
+    ...seedGrades.filter((g) => g.track === "senior").map((g) => g.code),
+    ...seedGrades.filter((g) => g.track === "junior").map((g) => g.code),
+  ])
+    .filter((t) => !baseSlugs.has(t.slug))
+    .map((t, i) => ({
+      slug: t.slug,
+      name: t.name,
+      name_jp: null,
+      category: t.category,
+      subcategory: null,
+      belt_level: gradeLabel.get(t.firstGradeCode) ?? null,
+      description: null,
+      sort_order: 100 + i,
+    })),
+];
+
+// Każdy program przygotowuje do jednego stopnia (grade_code z src/content/grades.ts).
 export const seedPrograms = [
   {
-    slug: "start-10-kyu",
-    title: "Start: przygotowanie do 10 kyu",
+    slug: "start-10-1-kyu",
+    title: "Start Junior: przygotowanie do 10.1 kyu",
     description:
-      "Czterotygodniowy program dla początkujących: podstawowe ciosy, bloki, kopnięcia i pierwsze kata.",
-    level: "Początkujący",
+      "Pierwszy program dla dzieci i młodzieży do 15 lat. Krótkie serie, nauka postawy, pierwszych ciosów, bloku i kopnięcia.",
+    level: "Początkujący · Junior",
     duration_weeks: 4,
+    grade_code: "J-10.1",
+    items: [
+      { day: 1, technique: "seiken-chudan-tsuki", reps: "2 × 10 na stronę", notes: "Pięść zaciśnięta, druga ręka wraca do biodra." },
+      { day: 1, technique: "gedan-barai", reps: "2 × 10 na stronę", notes: "Ruch od ucha w dół, nad kolanem." },
+      { day: 2, technique: "mae-geri", reps: "2 × 8 na nogę", notes: "Najpierw wysoko kolano, potem kopnięcie. Można trzymać się ściany." },
+      { day: 2, technique: "seiken-chudan-tsuki", reps: "2 × 10 na stronę", notes: "Głośne kiai na ostatnim ciosie serii." },
+      { day: 3, technique: "taikyoku-sono-ichi", reps: "3 powtórzenia", notes: "Ucz się po kawałku: najpierw pierwsza linia, potem cała litera H." },
+    ],
+  },
+  {
+    slug: "start-10-kyu",
+    title: "Start Senior: przygotowanie do 10 kyu",
+    description:
+      "Czterotygodniowy program dla początkujących od 16 lat: podstawowe ciosy, bloki, kopnięcia i pierwsze kata.",
+    level: "Początkujący · Senior",
+    duration_weeks: 4,
+    grade_code: "S-10",
     items: [
       { day: 1, technique: "seiken-chudan-tsuki", reps: "3 × 20 na stronę", notes: "Pilnuj powrotu ręki do biodra." },
       { day: 1, technique: "gedan-barai", reps: "3 × 15 na stronę", notes: null },

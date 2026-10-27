@@ -1,4 +1,5 @@
 import type { BeltColor, Grade } from "@/lib/types";
+import { requirementsMarkdown } from "./grade-requirements";
 
 // System stopni Kyokushin w dwóch torach.
 // Junior (do 15 lat): kyu 10–5, każde w trzech podstopniach oznaczanych czerwonymi belkami (10.1, 10.2, 10.3).
@@ -9,7 +10,7 @@ export const JUNIOR_MAX_AGE = 15;
 export const SENIOR_MIN_AGE = 16;
 export const LOWEST_SENIOR_ONLY_KYU = 4;
 export const JUNIOR_SUBGRADES = 3;
-export const MAX_DAN = 10;
+export const MAX_DAN = 8; // KWF: stopnie mistrzowskie od 1. do 8. dan
 
 // Artykuł w Teorii i Wiedzy, pod którym wyświetlamy pełne tabele stopni.
 export const GRADES_ARTICLE_SLUG = "system-stopni-kyu-dan";
@@ -28,13 +29,14 @@ const KYU_BELTS: Record<number, { belt: BeltColor; stripe: BeltColor | null }> =
   4: { belt: "green", stripe: null },
   3: { belt: "green", stripe: "brown" },
   2: { belt: "brown", stripe: null },
-  1: { belt: "brown", stripe: "gold" },
+  1: { belt: "brown", stripe: "black" },
 };
 
 function kyuGrade(track: Grade["track"], kyu: number, sub: number | null, sortOrder: number): Grade {
   const { belt, stripe } = KYU_BELTS[kyu];
+  const code = track === "junior" ? `J-${kyu}.${sub}` : `S-${kyu}`;
   return {
-    code: track === "junior" ? `J-${kyu}.${sub}` : `S-${kyu}`,
+    code,
     track,
     kyu,
     dan: null,
@@ -47,7 +49,7 @@ function kyuGrade(track: Grade["track"], kyu: number, sub: number | null, sortOr
     min_age: track === "senior" ? SENIOR_MIN_AGE : null,
     max_age: track === "junior" ? JUNIOR_MAX_AGE : null,
     sort_order: sortOrder,
-    requirements: null,
+    requirements: requirementsMarkdown(code),
   };
 }
 
@@ -71,7 +73,7 @@ const dan: Grade[] = Array.from({ length: MAX_DAN }, (_, i) => ({
   min_age: SENIOR_MIN_AGE,
   max_age: null,
   sort_order: seniorKyu.length + i + 1,
-  requirements: null,
+  requirements: requirementsMarkdown(`D-${i + 1}`),
 }));
 
 export const seedGrades: Grade[] = [...junior, ...seniorKyu, ...dan];

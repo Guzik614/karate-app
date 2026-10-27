@@ -31,7 +31,7 @@ export default async function GradesPage() {
           jedna, dwie lub trzy.
         </Rule>
         <Rule title={`Senior: od ${SENIOR_MIN_AGE} lat`}>
-          Pełne kyu od 10. do 1., a potem stopnie mistrzowskie od 1. do 10. dan. Każdy egzamin to od razu kolejne kyu.
+          Pełne kyu od 10. do 1., a potem stopnie mistrzowskie od 1. do 8. dan (czarny pas, yudansha). Każdy egzamin to od razu kolejne kyu.
         </Rule>
         <Rule title={`Od ${LOWEST_SENIOR_ONLY_KYU}. kyu tylko seniorzy`}>
           Egzaminy na {LOWEST_SENIOR_ONLY_KYU}. kyu i wyższe stopnie mogą zdawać wyłącznie osoby, które ukończyły{" "}

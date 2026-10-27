@@ -4,7 +4,7 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { seedGlossary } from "../src/content/glossary";
-import { seedGrades } from "../src/content/grades";
+import { MAX_DAN, seedGrades } from "../src/content/grades";
 import { knowledgeCategories, seedArticles } from "../src/content/knowledge";
 import { seedPrograms, seedTechniques } from "../src/content/training";
 
@@ -28,20 +28,9 @@ async function run<T>(label: string, promise: PromiseLike<{ data: T; error: unkn
 }
 
 async function main() {
-  // Stopnie aktualizujemy zawsze, ale bez wymagań egzaminacyjnych, które uzupełnia admin w bazie.
-  await run(
-    "stopnie (junior i senior)",
-    supabase
-      .from("grades")
-      .upsert(
-        seedGrades.map((grade) => {
-          const { requirements, ...rest } = grade;
-          void requirements;
-          return rest;
-        }),
-        { onConflict: "code" },
-      ),
-  );
+  // Stopnie razem z wymaganiami egzaminacyjnymi KWF (src/content/grade-requirements.ts).
+  await run("stopnie i wymagania egzaminacyjne", supabase.from("grades").upsert(seedGrades, { onConflict: "code" }));
+  await run(`usunięcie stopni powyżej ${MAX_DAN}. dan`, supabase.from("grades").delete().gt("dan", MAX_DAN));
   await run(
     "kategorie wiedzy",
     supabase.from("knowledge_categories").upsert(knowledgeCategories, { onConflict: "slug" }),
@@ -61,10 +50,12 @@ async function main() {
       ),
   );
 
-  const techniques = await run(
-    "techniki",
-    supabase.from("techniques").upsert(seedTechniques, { onConflict: "slug" }).select("id, slug"),
+  // Dodajemy tylko brakujące techniki, żeby nie nadpisać opisów i filmów dodanych w panelu admina.
+  await run(
+    "techniki z wymagań egzaminacyjnych",
+    supabase.from("techniques").upsert(seedTechniques, { onConflict: "slug", ignoreDuplicates: true }),
   );
+  const techniques = await run("lista technik", supabase.from("techniques").select("id, slug"));
   const techniqueId = new Map(techniques!.map((t) => [t.slug, t.id]));
 
   for (const { items, ...program } of seedPrograms) {
