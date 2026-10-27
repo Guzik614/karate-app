@@ -14,9 +14,6 @@ import type {
   TechniqueCategory,
 } from "./types";
 
-// Warstwa dostępu do danych. Gdy Supabase nie jest skonfigurowany,
-// zwraca treści startowe z src/content, żeby aplikację dało się od razu obejrzeć.
-
 const TECHNIQUE_FIELDS =
   "id, slug, name, name_jp, category, subcategory, belt_level, description, mux_playback_id, sort_order";
 const ARTICLE_FIELDS =
@@ -33,8 +30,6 @@ const localArticles: Article[] = seedArticles.map((a) => ({
   id: a.slug,
   updated_at: "2026-10-20T00:00:00Z",
 }));
-
-// ───────────────────────── Techniki ─────────────────────────
 
 export async function getTechniques(category?: TechniqueCategory): Promise<Technique[]> {
   if (!isSupabaseConfigured) {
@@ -61,8 +56,6 @@ export async function getTechnique(slug: string): Promise<Technique | null> {
   if (error) throw error;
   return data;
 }
-
-// ───────────────────────── Programy ─────────────────────────
 
 export async function getPrograms(): Promise<Program[]> {
   if (!isSupabaseConfigured) {
@@ -123,8 +116,6 @@ export async function getProgram(
   if (itemsError) throw itemsError;
   return { program, items };
 }
-
-// ───────────────────────── Teoria i Wiedza ─────────────────────────
 
 export async function getKnowledgeCategories(): Promise<KnowledgeCategory[]> {
   if (!isSupabaseConfigured) return knowledgeCategories;
@@ -189,8 +180,6 @@ export async function getGlossary(): Promise<GlossaryTerm[]> {
   if (error) throw error;
   return data;
 }
-
-// ───────────────────────── Stopnie (Grades) ─────────────────────────
 
 export interface Grade {
   id: number;
