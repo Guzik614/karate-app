@@ -1,9 +1,4 @@
-import { Yuji_Boku } from "next/font/google";
-
-// Pędzelkowy krój do kaligrafii 極真 (Kyokushin).
-const brush = Yuji_Boku({ weight: "400", preload: false, display: "swap" });
-
-// Tło głównego prostokąta: zachodzące słońce, góry we mgle i kaligraficzny znak 極真,
+// Tło głównego prostokąta: zachodzące słońce, góry we mgle i kaligraficzny znak Kyokushin,
 // który wyłania się zza grzbietów. Animacje wyłącza prefers-reduced-motion (globals.css).
 export function HeroScene() {
   return (
@@ -39,17 +34,6 @@ export function HeroScene() {
       <circle className="hero-glow" cx="930" cy="250" r="260" fill="url(#hero-glow)" />
       <circle className="hero-sun" cx="930" cy="250" r="125" fill="url(#hero-sun)" />
 
-      {/* Kaligrafia 極真 wyłania się zza gór */}
-      <text
-        className={`hero-kanji ${brush.className}`}
-        x="930"
-        y="278"
-        textAnchor="middle"
-        fontSize="190"
-        fill="#f4f1ea"
-      >
-        極真
-      </text>
 
       {/* Dalekie góry */}
       <path
@@ -57,6 +41,17 @@ export function HeroScene() {
         fill="#262c38"
       />
       <ellipse className="hero-mist-1" cx="820" cy="318" rx="360" ry="16" fill="#e7eaf0" opacity={0.08} filter="url(#hero-blur)" />
+
+      {/* Kaligraficzny znak Kyokushin wyłania się zza gór */}
+      <image
+        className="hero-kanji"
+        href="/grafika/kyokushin-kanji.png"
+        x="876"
+        y="8"
+        width="109"
+        height="300"
+        preserveAspectRatio="xMidYMid meet"
+      />
 
       {/* Środkowe góry */}
       <path
