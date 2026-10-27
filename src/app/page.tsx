@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HomeArt, type HomeArtKind } from "@/components/home-art";
-import { KankuAnimation } from "@/components/kanku-animation";
+import { HeroScene } from "@/components/hero-scene";
 
 const SECTIONS = [
   {
@@ -48,7 +48,6 @@ const SECTIONS = [
   },
   {
     href: "/klub",
-    photo: "/klub/ring.jpg",
     logo: "/klub/logo-dfc.png",
     title: "Dragon Fight Club Radom",
     subtitle: "Kadra, Akademia 50+, zdjęcia sali i kontakt.",
@@ -59,11 +58,10 @@ const SECTIONS = [
 export default function Home() {
   return (
     <div className="space-y-10">
-      <section className="relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-card to-input p-8">
-        <div className="pointer-events-none absolute -right-16 top-1/2 h-72 w-72 -translate-y-1/2 opacity-25 md:right-10 md:h-60 md:w-60 md:opacity-100">
-          <KankuAnimation className="h-full w-full" />
-        </div>
-        <div className="relative">
+      <section className="relative min-h-[22rem] overflow-hidden rounded-2xl border border-border bg-background p-8 md:min-h-[24rem]">
+        <HeroScene />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent md:via-background/35" />
+        <div className="relative max-w-xl">
         <p className="text-4xl font-bold text-accent-text">押忍</p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">
           Trenuj Kyokushin w dojo i w domu
@@ -104,42 +102,21 @@ type HomeCardProps = {
   subtitle: string;
   meta: string;
   art?: HomeArtKind;
-  photo?: string;
   logo?: string;
 };
 
-// Kafelek z grafiką w jednym stylu: ciemne tło, czerwona poświata, jasna sylwetka albo zdjęcie klubu.
-function HomeCard({ href, title, subtitle, meta, art, photo, logo }: HomeCardProps) {
+// Kafelek z grafiką w jednym stylu: ciemne tło z czerwoną poświatą i jasna grafika (sylwetka albo logo klubu).
+function HomeCard({ href, title, subtitle, meta, art, logo }: HomeCardProps) {
   return (
     <Link
       href={href}
       className="group block overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-accent hover:bg-card-hover"
     >
       <div className="relative aspect-[2/1] overflow-hidden border-b border-border bg-[radial-gradient(ellipse_at_center,color-mix(in_srgb,var(--accent)_22%,transparent),transparent_70%),linear-gradient(to_bottom,var(--input),var(--card))]">
-        {photo ? (
-          <>
-            <Image
-              src={photo}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
-            <div className="absolute inset-0 bg-background/55" />
-            {logo && (
-              <div className="absolute inset-0 p-4 transition-transform duration-500 group-hover:scale-105">
-                <Image src={logo} alt="" fill sizes="320px" className="object-contain p-4 drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]" />
-              </div>
-            )}
-          </>
-        ) : (
-          art && (
-            <div className="absolute inset-0 p-3 transition-transform duration-500 group-hover:scale-105">
-              <HomeArt kind={art} />
-            </div>
-          )
-        )}
+        <div className="absolute inset-0 p-3 transition-transform duration-500 group-hover:scale-105">
+          {art && <HomeArt kind={art} />}
+          {logo && <Image src={logo} alt="" fill sizes="320px" className="object-contain p-5" />}
+        </div>
       </div>
       <div className="p-4">
         <p className="mb-1 text-xs font-medium uppercase tracking-wide text-accent-text">{meta}</p>
