@@ -83,9 +83,17 @@ export default function Home() {
           >
             Teoria i Wiedza
           </Link>
+          <a
+            href="#intro"
+            className="rounded-lg border border-border px-5 py-2.5 font-semibold hover:border-accent hover:text-accent-text"
+          >
+            ▶ Sprawdź, zanim zaczniesz
+          </a>
         </div>
         </div>
       </section>
+
+      <IntroVideo />
 
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {SECTIONS.map((s) => (
@@ -93,6 +101,59 @@ export default function Home() {
         ))}
       </section>
     </div>
+  );
+}
+
+// Rolki klubu Dragon Fight Club Radom jako intro dla nowych osób. Pionowe, z dźwiękiem, startują po kliknięciu.
+const INTRO_REELS = [
+  { src: "/wideo/pokolenia-1.mp4", poster: "/wideo/pokolenia-1.jpg", label: "Część 1 · Przygotowanie" },
+  { src: "/wideo/pokolenia-2.mp4", poster: "/wideo/pokolenia-2.jpg", label: "Część 2 · Pokolenia" },
+];
+
+function IntroVideo() {
+  return (
+    <section
+      id="intro"
+      className="grid scroll-mt-20 items-center gap-6 overflow-hidden rounded-2xl border border-border bg-card p-5 md:grid-cols-[minmax(0,28rem)_1fr] md:p-8"
+    >
+      <div className="grid grid-cols-2 gap-3">
+        {INTRO_REELS.map((reel) => (
+          <figure key={reel.src}>
+            <video
+              className="aspect-[9/16] w-full rounded-xl border border-border bg-background object-cover"
+              src={reel.src}
+              poster={reel.poster}
+              controls
+              playsInline
+              preload="none"
+            />
+            <figcaption className="mt-2 text-center text-xs text-muted">{reel.label}</figcaption>
+          </figure>
+        ))}
+      </div>
+      <div>
+        <p className="text-xs font-medium uppercase tracking-wide text-accent-text">Intro · 2 krótkie filmy</p>
+        <h2 className="mt-1 text-2xl font-bold tracking-tight md:text-3xl">Sprawdź, zanim zaczniesz</h2>
+        <p className="mt-3 max-w-lg text-muted">
+          Zawiązanie pasa, rozgrzewka, pozycja walki, a potem pokolenia na jednej macie. Zobacz, jak wygląda
+          trening Kyokushin w Dragon Fight Club Radom, zanim przejdziesz do technik i programów.
+        </p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Link
+            href="/techniki"
+            className="rounded-lg bg-accent px-5 py-2.5 font-semibold text-white hover:bg-accent-hover"
+          >
+            Zacznij trening
+          </Link>
+          <Link
+            href="/klub"
+            className="rounded-lg border border-border px-5 py-2.5 font-semibold hover:border-accent hover:text-accent-text"
+          >
+            O klubie
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }
 
