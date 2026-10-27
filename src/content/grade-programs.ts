@@ -102,6 +102,59 @@ function programSlug(grade: Grade) {
   return `przygotowanie-${grade.code.toLowerCase().replace(".", "-")}`;
 }
 
+// Każdy dzień zaczyna się krótką rozgrzewką, a kończy schłodzeniem organizmu.
+type Exercise = [name: string, reps: string];
+const WARM_UP: Record<Grade["track"], Exercise[]> = {
+  junior: [
+    ["Trucht w miejscu", "1 minuta"],
+    ["Pajacyki", "20"],
+    ["Krążenia ramion w przód i w tył", "10 + 10"],
+    ["Krążenia bioder i kolan", "10 w każdą stronę"],
+    ["Wymachy nóg w przód i w bok", "10 na nogę"],
+    ["Przysiady", "10"],
+  ],
+  senior: [
+    ["Skakanka lub trucht w miejscu", "2 minuty"],
+    ["Pajacyki", "30"],
+    ["Krążenia ramion, bioder, kolan i stawów skokowych", "10 w każdą stronę"],
+    ["Wymachy nóg w przód, w bok i w tył", "10 na nogę"],
+    ["Wypady w przód", "10 na nogę"],
+    ["Przysiady", "15"],
+  ],
+};
+const COOL_DOWN: Record<Grade["track"], Exercise[]> = {
+  junior: [
+    ["Spokojny marsz i rozluźnienie rąk", "1 minuta"],
+    ["Rozciąganie przodu uda (pięta do pośladka, stojąc)", "20 s na nogę"],
+    ["Skłon w siadzie prostym", "20 s"],
+    ["Motylek (siad, stopy razem)", "20 s"],
+    ["Rozciąganie ramion przed sobą i za głową", "15 s na rękę"],
+    ["Oddychanie nogare w seiza", "5 oddechów"],
+  ],
+  senior: [
+    ["Rozciąganie tyłu uda (skłon do nogi)", "30 s na nogę"],
+    ["Rozciąganie przodu uda", "30 s na nogę"],
+    ["Pachwiny: motylek i szeroki rozkrok", "30 s + 30 s"],
+    ["Biodra: pozycja gołębia", "30 s na stronę"],
+    ["Łydki przy ścianie", "20 s na nogę"],
+    ["Plecy i barki: skręt w leżeniu, ramię przed klatką", "20 s na stronę"],
+    ["Oddychanie nogare i mokuso w seiza", "1 minuta"],
+  ],
+};
+
+function phase(day: number, label: string, exercises: Exercise[]): SeedProgramItem[] {
+  return exercises.map(([name, reps]) => ({ day, technique: null, reps, notes: `${label}: ${name}` }));
+}
+
+function withWarmUpAndCoolDown(items: SeedProgramItem[], track: Grade["track"]): SeedProgramItem[] {
+  const days = [...new Set(items.map((i) => i.day))].sort((a, b) => a - b);
+  return days.flatMap((day) => [
+    ...phase(day, "Rozgrzewka", WARM_UP[track]),
+    ...items.filter((i) => i.day === day),
+    ...phase(day, "Schłodzenie", COOL_DOWN[track]),
+  ]);
+}
+
 function programFor(grade: Grade, isFirst: boolean, track: string): SeedProgram | null {
   const requirements = getGradeRequirements(grade.code);
   if (!requirements?.sections.length) return null;
@@ -121,11 +174,11 @@ function programFor(grade: Grade, isFirst: boolean, track: string): SeedProgram 
   return {
     slug: programSlug(grade),
     title: isFirst ? `Start ${track}: przygotowanie do ${grade.label}` : `Przygotowanie do ${grade.label}`,
-    description: `Plan zgodny z wymaganiami egzaminacyjnymi KWF na ${grade.label}. Trzy dni w tygodniu: dzień 1 pozycje i technika rąk, dzień 2 kopnięcia i poruszanie się, dzień 3 kata, kumite i sprawność.`,
+    description: `Plan zgodny z wymaganiami egzaminacyjnymi KWF na ${grade.label}. Trzy dni w tygodniu: dzień 1 pozycje i technika rąk, dzień 2 kopnięcia i poruszanie się, dzień 3 kata, kumite i sprawność. Każdy trening zaczyna się rozgrzewką, a kończy schłodzeniem.`,
     level: `${isFirst ? "Początkujący" : grade.label} · ${track}`,
     duration_weeks: durationWeeks(grade),
     grade_code: grade.code,
-    items,
+    items: withWarmUpAndCoolDown(items, grade.track),
   };
 }
 
