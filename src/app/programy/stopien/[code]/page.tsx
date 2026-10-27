@@ -4,7 +4,12 @@ import { notFound } from "next/navigation";
 import { Belt, beltDescription } from "@/components/belt";
 import { CardLink } from "@/components/card-link";
 import { TechniqueVideoButton } from "@/components/technique-video-button";
-import { getGradeRequirements, techniqueName, techniqueSlug } from "@/content/grade-requirements";
+import {
+  KYU_MIN_TRAINING,
+  getGradeRequirements,
+  techniqueName,
+  techniqueSlug,
+} from "@/content/grade-requirements";
 import { getGrades, getPrograms, getTechniques } from "@/lib/data";
 import type { Grade } from "@/lib/types";
 
@@ -18,17 +23,24 @@ function trackName(grade: Grade) {
   return grade.track === "junior" ? "Stopień juniorski" : "Stopień seniorski";
 }
 
-export async function generateMetadata({ params }: PageProps<"/programy/stopien/[code]">): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps<"/programy/stopien/[code]">): Promise<Metadata> {
   const { code } = await params;
   const grade = await findGrade(code);
   return { title: grade ? `Przygotowanie do ${grade.label}` : "Stopień" };
 }
 
-export default async function GradePrepPage({ params }: PageProps<"/programy/stopien/[code]">) {
+export default async function GradePrepPage({
+  params,
+}: PageProps<"/programy/stopien/[code]">) {
   const { code } = await params;
   const grade = await findGrade(code);
   if (!grade) notFound();
-  const [allPrograms, techniques] = await Promise.all([getPrograms(), getTechniques()]);
+  const [allPrograms, techniques] = await Promise.all([
+    getPrograms(),
+    getTechniques(),
+  ]);
   const programs = allPrograms.filter((p) => p.grade_code === grade.code);
   const videos = new Map(techniques.map((t) => [t.slug, t]));
   const requirements = getGradeRequirements(grade.code);
@@ -36,11 +48,18 @@ export default async function GradePrepPage({ params }: PageProps<"/programy/sto
   return (
     <article className="mx-auto max-w-3xl space-y-8">
       <div>
-        <Link href="/programy" className="text-sm text-muted hover:text-accent-text">
+        <Link
+          href="/programy"
+          className="text-sm text-muted hover:text-accent-text"
+        >
           ← Programy
         </Link>
-        <p className="mt-4 text-sm font-medium tracking-wider text-accent-text uppercase">{trackName(grade)}</p>
-        <h1 className="mt-1 text-3xl font-bold tracking-tight">Przygotowanie do {grade.label}</h1>
+        <p className="mt-4 text-sm font-medium tracking-wider text-accent-text uppercase">
+          {trackName(grade)}
+        </p>
+        <h1 className="mt-1 text-3xl font-bold tracking-tight">
+          Przygotowanie do {grade.label}
+        </h1>
         <div className="mt-3 flex flex-wrap items-center gap-3 text-muted">
           <Belt grade={grade} className="h-5 w-40" />
           <span className="text-sm">{beltDescription(grade)}</span>
@@ -51,11 +70,15 @@ export default async function GradePrepPage({ params }: PageProps<"/programy/sto
         <h2 className="mb-3 text-xl font-semibold">Wymagania egzaminacyjne</h2>
         {requirements?.sections.length ? (
           <>
-            <p className="mb-4 text-sm text-muted">Kliknij technikę oznaczoną ▶, aby obejrzeć film instruktażowy.</p>
+            <p className="mb-4 text-sm text-muted">
+              Kliknij technikę oznaczoną ▶, aby obejrzeć film instruktażowy.
+            </p>
             <dl className="space-y-4">
               {requirements.sections.map((section, i) => (
                 <div key={i}>
-                  <dt className="mb-1.5 text-sm font-semibold tracking-wide text-accent-text">{section.label}</dt>
+                  <dt className="mb-1.5 text-sm font-semibold tracking-wide text-accent-text">
+                    {section.label}
+                  </dt>
                   <dd>
                     {section.video ? (
                       <ul className="flex flex-wrap gap-2">
@@ -85,13 +108,22 @@ export default async function GradePrepPage({ params }: PageProps<"/programy/sto
                 </div>
               ))}
             </dl>
-            <p className="mt-5 text-sm text-muted">
-              Wymagania KWF (Kyokushin World Federation). Na egzaminie obowiązują też wszystkie wymagania z niższych
-              stopni. ▶ w kolorze oznacza, że film jest już dostępny.
+            {grade.kyu !== null && (
+              <p className="mt-5 text-sm text-muted">
+                Staż: {KYU_MIN_TRAINING.toLowerCase()}.
+              </p>
+            )}
+            <p className="mt-2 text-sm text-muted">
+              Wymagania KWF (Kyokushin World Federation). Na egzaminie
+              obowiązują też wszystkie wymagania z niższych stopni. ▶ w kolorze
+              oznacza, że film jest już dostępny.
             </p>
           </>
         ) : (
-          <p className="text-muted">{requirements?.note ?? "Wymagania na ten stopień są w przygotowaniu."}</p>
+          <p className="text-muted">
+            {requirements?.note ??
+              "Wymagania na ten stopień są w przygotowaniu."}
+          </p>
         )}
       </section>
 
@@ -105,7 +137,9 @@ export default async function GradePrepPage({ params }: PageProps<"/programy/sto
                 href={`/programy/${p.slug}`}
                 title={p.title}
                 subtitle={p.description}
-                meta={[p.level, p.duration_weeks && `${p.duration_weeks} tyg.`].filter(Boolean).join(" · ")}
+                meta={[p.level, p.duration_weeks && `${p.duration_weeks} tyg.`]
+                  .filter(Boolean)
+                  .join(" · ")}
               />
             ))}
           </div>

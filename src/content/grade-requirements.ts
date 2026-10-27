@@ -18,61 +18,118 @@ export type RequirementSection = {
   category?: TechniqueCategory; // domyślnie kihon
 };
 
-export type GradeRequirements = { sections: RequirementSection[]; note?: string };
+export type GradeRequirements = {
+  sections: RequirementSection[];
+  note?: string;
+};
 
 // Skróty do budowania sekcji.
-const pozycje = (...items: string[]): RequirementSection => ({ label: "Pozycje (tachikata)", items, video: true });
+const pozycje = (...items: string[]): RequirementSection => ({
+  label: "Pozycje (tachikata)",
+  items,
+  video: true,
+});
 const uderzenia = (...items: string[]): RequirementSection => ({
   label: "Uderzenia i cięcia (tsuki / uchi)",
   items,
   video: true,
 });
-const bloki = (...items: string[]): RequirementSection => ({ label: "Bloki (uke)", items, video: true });
-const kopniecia = (...items: string[]): RequirementSection => ({ label: "Kopnięcia (keri)", items, video: true });
+const bloki = (...items: string[]): RequirementSection => ({
+  label: "Bloki (uke)",
+  items,
+  video: true,
+});
+const kopniecia = (...items: string[]): RequirementSection => ({
+  label: "Kopnięcia (keri)",
+  items,
+  video: true,
+});
 const ido = (...items: string[]): RequirementSection => ({
   label: "Ido (poruszanie się w pozycjach)",
   items,
   video: true,
 });
-const kata = (...items: string[]): RequirementSection => ({ label: "Kata", items, video: true, category: "kata" });
+const kata = (...items: string[]): RequirementSection => ({
+  label: "Kata",
+  items,
+  video: true,
+  category: "kata",
+});
 const kumiteTechniki = (...items: string[]): RequirementSection => ({
   label: "Kumite",
   items,
   video: true,
   category: "kihon_kumite",
 });
-const ruch = (...items: string[]): RequirementSection => ({ label: "Pozycje i poruszanie się", items });
-const kumite = (...items: string[]): RequirementSection => ({ label: "Kumite", items });
-const kokyu = (...items: string[]): RequirementSection => ({ label: "Kokyu ho (oddychanie)", items, video: true });
-const renraku = (...items: string[]): RequirementSection => ({ label: "Renraku (kombinacje)", items });
-const sprawnosc = (...items: string[]): RequirementSection => ({ label: "Test sprawności", items });
-const teoria = (...items: string[]): RequirementSection => ({ label: "Teoria i komendy", items });
-const warunki = (...items: string[]): RequirementSection => ({ label: "Wiek i staż", items });
-const dyplomy = (...items: string[]): RequirementSection => ({ label: "Uprawnienia", items });
+const ruch = (...items: string[]): RequirementSection => ({
+  label: "Pozycje i poruszanie się",
+  items,
+});
+const kumite = (...items: string[]): RequirementSection => ({
+  label: "Kumite",
+  items,
+});
+const kokyu = (...items: string[]): RequirementSection => ({
+  label: "Kokyu ho (oddychanie)",
+  items,
+  video: true,
+});
+const renraku = (...items: string[]): RequirementSection => ({
+  label: "Renraku (kombinacje)",
+  items,
+});
+const sprawnosc = (...items: string[]): RequirementSection => ({
+  label: "Test sprawności",
+  items,
+});
+const teoria = (...items: string[]): RequirementSection => ({
+  label: "Teoria i komendy",
+  items,
+});
+const warunki = (...items: string[]): RequirementSection => ({
+  label: "Wiek i staż",
+  items,
+});
+const dyplomy = (...items: string[]): RequirementSection => ({
+  label: "Uprawnienia",
+  items,
+});
 
 // Stamina w tabeli KWF: pompki / brzuszki / przysiady.
 const stamina = (reps: string, tobiGeri?: string) =>
-  sprawnosc(`Pompki / brzuszki / przysiady: ${reps}`, ...(tobiGeri ? [tobiGeri] : []));
+  sprawnosc(
+    `Pompki / brzuszki / przysiady: ${reps}`,
+    ...(tobiGeri ? [tobiGeri] : []),
+  );
 
 const requirements: Record<string, GradeRequirements> = {
   // ───────────── Junior (do 15 lat) ─────────────
   "J-10.1": {
     sections: [
-      teoria("Zasady bezpieczeństwa: sala, szatnia, ubiór itp. Strefy: jodan, chudan, gedan. Znaczenie słowa kiai – okrzyk."),
+      teoria(
+        "Zasady bezpieczeństwa: sala, szatnia, ubiór itp. Strefy: jodan, chudan, gedan. Znaczenie słowa kiai – okrzyk.",
+      ),
       pozycje("Fudo-dachi"),
       uderzenia("Morote-tsuki (jodan, chudan, gedan)"),
       kopniecia("Hiza-geri (chudan)"),
-      sprawnosc("50 razy zaciskanie pięści", "10 przysiadów: obciążone całe stopy, ręce dowolnie"),
+      sprawnosc(
+        "50 razy zaciskanie pięści",
+        "10 przysiadów: obciążone całe stopy, ręce dowolnie",
+      ),
     ],
   },
   "J-10.2": {
     sections: [
-      teoria("Pozycja seiza – siadanie i wstawanie, ukłony. Znaczenie słowa naore – powrót."),
+      teoria(
+        "Pozycja seiza – siadanie i wstawanie, ukłony. Znaczenie słowa naore – powrót.",
+      ),
       pozycje("Zenkutsu-dachi"),
       uderzenia("Uraken-shomen-uchi"),
       bloki("Morote-gedan-barai"),
       kopniecia("Hiza-geri chudan plus kiai"),
-      renraku("Krok w tył do zenkutsu-dachi z morote-gedan-barai / gedan-barai i powrót do fudo-dachi"),
+      renraku(
+        "Krok w tył do zenkutsu-dachi z morote-gedan-barai / gedan-barai i powrót do fudo-dachi",
+      ),
       sprawnosc("10 skłonów w przód z leżenia na plecach, ręce dowolnie"),
     ],
   },
@@ -83,13 +140,19 @@ const requirements: Record<string, GradeRequirements> = {
       uderzenia("Seiken-tsuki (jodan, chudan, gedan)"),
       bloki("Gedan-barai"),
       kopniecia("Hiza-geri jodan plus kiai"),
-      renraku("Krok w tył do zenkutsu-dachi z morote-gedan-barai / gedan-barai i powrót do fudo-dachi"),
-      sprawnosc("10 ugięć ramion z leżenia przodem w podporze na dłoniach i kolanach"),
+      renraku(
+        "Krok w tył do zenkutsu-dachi z morote-gedan-barai / gedan-barai i powrót do fudo-dachi",
+      ),
+      sprawnosc(
+        "10 ugięć ramion z leżenia przodem w podporze na dłoniach i kolanach",
+      ),
     ],
   },
   "J-9.1": {
     sections: [
-      teoria("Prawidłowy wygląd karategi i wiązanie pasa. Liczenie po japońsku do 10."),
+      teoria(
+        "Prawidłowy wygląd karategi i wiązanie pasa. Liczenie po japońsku do 10.",
+      ),
       pozycje("Heisoku-dachi"),
       uderzenia("Oi-tsuki (jodan, chudan, gedan)"),
       bloki("Jodan-uke"),
@@ -122,7 +185,9 @@ const requirements: Record<string, GradeRequirements> = {
       uderzenia("Seiken-ago-uchi"),
       bloki("Uchi-uke"),
       kopniecia("Mae-geri chudan"),
-      renraku("Trzy kroki w przód w zenkutsu-dachi z oi-tsuki / uke, obrót z gedan-barai"),
+      renraku(
+        "Trzy kroki w przód w zenkutsu-dachi z oi-tsuki / uke, obrót z gedan-barai",
+      ),
       sprawnosc(
         "10 ugięć ramion z leżenia przodem w podporze na pięściach i kolanach",
         "10 wahnięć w formie kołyski na plecach z przysiadu, ręce pod kątem 45° amortyzują pad w tył",
@@ -136,8 +201,13 @@ const requirements: Record<string, GradeRequirements> = {
       uderzenia("Shuto-sakotsu-uchi-komi"),
       bloki("Soto-keage"),
       kopniecia("Soto-keage"),
-      renraku("Trzy kroki w przód w zenkutsu-dachi z keri, obrót z morote-gedan-barai"),
-      sprawnosc("10 przewrotów w przód", "30 sekund mostka w tył z leżenia na plecach"),
+      renraku(
+        "Trzy kroki w przód w zenkutsu-dachi z keri, obrót z morote-gedan-barai",
+      ),
+      sprawnosc(
+        "10 przewrotów w przód",
+        "30 sekund mostka w tył z leżenia na plecach",
+      ),
     ],
   },
   "J-8.2": {
@@ -146,7 +216,9 @@ const requirements: Record<string, GradeRequirements> = {
       pozycje("Moroashi-dachi", "Uchi-hachiji-dachi"),
       uderzenia("Shuto-sakotsu-uchi"),
       kopniecia("Uchi-keage"),
-      renraku("Krok w tył do zenkutsu-dachi z gedan-barai plus gyaku-tsuki i powrót do fudo-dachi"),
+      renraku(
+        "Krok w tył do zenkutsu-dachi z gedan-barai plus gyaku-tsuki i powrót do fudo-dachi",
+      ),
       sprawnosc(
         "10 przewrotów w tył",
         "10 razy po 20 sekund rozciągania w maksymalnym rozkroku ze skrętem w lewo i w prawo (szpagat)",
@@ -159,7 +231,9 @@ const requirements: Record<string, GradeRequirements> = {
       pozycje("Sanchin-dachi"),
       uderzenia("Shuto-ganmen-uchi"),
       kopniecia("Mae-geri jodan"),
-      renraku("Trzy kroki w przód w zenkutsu-dachi z uke plus gyaku-tsuki, obrót z gedan-barai"),
+      renraku(
+        "Trzy kroki w przód w zenkutsu-dachi z uke plus gyaku-tsuki, obrót z gedan-barai",
+      ),
       kata("Kihon kata I"),
       sprawnosc(
         "10 razy gwiazda gimnastyczna",
@@ -173,9 +247,13 @@ const requirements: Record<string, GradeRequirements> = {
       pozycje("Kiba-dachi"),
       uderzenia("Uraken-sayu-uchi", "Uraken-hizo-uchi"),
       kopniecia("Kansetsu-geri"),
-      renraku("Trzy kroki w przód w sanchin-dachi z tsuki / uchi / keri / uke, obrót poprzez przekrok"),
+      renraku(
+        "Trzy kroki w przód w sanchin-dachi z tsuki / uchi / keri / uke, obrót poprzez przekrok",
+      ),
       kata("Taikyoku I"),
-      sprawnosc("10 razy zamach nogą i przejście do stania na rękach pod drabinkami"),
+      sprawnosc(
+        "10 razy zamach nogą i przejście do stania na rękach pod drabinkami",
+      ),
     ],
   },
   "J-7.2": {
@@ -184,7 +262,9 @@ const requirements: Record<string, GradeRequirements> = {
       pozycje("Tsuruashi-dachi"),
       uderzenia("Uraken-yoko-uchi (jodan, chudan)"),
       kopniecia("Kakato-geri"),
-      renraku("Trzy kroki w przód w zenkutsu-dachi z mae-geri plus gyaku-tsuki, obrót z morote-gedan-barai"),
+      renraku(
+        "Trzy kroki w przód w zenkutsu-dachi z mae-geri plus gyaku-tsuki, obrót z morote-gedan-barai",
+      ),
       kata("Taikyoku II"),
       sprawnosc("15 sekund stania na rękach pod drabinkami"),
     ],
@@ -196,7 +276,9 @@ const requirements: Record<string, GradeRequirements> = {
       uderzenia("Shuto-mawashi-uchi"),
       kopniecia("Yoko-keage", "Ushiro-keage"),
       bloki("Shuto-mawashi-uke"),
-      renraku("Trzy kroki w przód w kokutsu-dachi z shuto-mawashi-uke, obrót poprzez przekrok"),
+      renraku(
+        "Trzy kroki w przód w kokutsu-dachi z shuto-mawashi-uke, obrót poprzez przekrok",
+      ),
       kata("Sakugi I"),
     ],
   },
@@ -205,22 +287,34 @@ const requirements: Record<string, GradeRequirements> = {
       ruch("Pozycja walki"),
       uderzenia("Seiken-tate-tsuki (jodan, chudan, gedan)"),
       kopniecia("Mawashi-geri gedan"),
-      renraku("Trzy kroki w przód w pozycji walki z gyaku-tate-tsuki, obrót poprzez zakrok"),
+      renraku(
+        "Trzy kroki w przód w pozycji walki z gyaku-tate-tsuki, obrót poprzez zakrok",
+      ),
       kumite("5 × 1 minuta"),
       kata("Sakugi II"),
-      sprawnosc("10 razy scyzoryk w zwisie tyłem na drabinkach", "60 sekund szpagatu w bok na piętach"),
+      sprawnosc(
+        "10 razy scyzoryk w zwisie tyłem na drabinkach",
+        "60 sekund szpagatu w bok na piętach",
+      ),
     ],
   },
   "J-6.2": {
     sections: [
       teoria("Wiedza na temat Światowej Organizacji Karate."),
       ruch("Krok dostawny w pozycji walki"),
-      uderzenia("Tettsui-hizo-uchi", "Tettsui-yoko-uchi (jodan, chudan, gedan)"),
+      uderzenia(
+        "Tettsui-hizo-uchi",
+        "Tettsui-yoko-uchi (jodan, chudan, gedan)",
+      ),
       kopniecia("Mawashi-geri chudan"),
-      renraku("Trzy kroki w przód w zenkutsu-dachi z mae-keage / yoko-keage / soto-keage plus gyaku-tsuki, obrót"),
+      renraku(
+        "Trzy kroki w przód w zenkutsu-dachi z mae-keage / yoko-keage / soto-keage plus gyaku-tsuki, obrót",
+      ),
       kumite("10 × 1 minuta"),
       kata("Taikyoku III"),
-      sprawnosc("10 przeskoków z przysiadu przez partnera klęczącego na kolanach i rękach, obrót"),
+      sprawnosc(
+        "10 przeskoków z przysiadu przez partnera klęczącego na kolanach i rękach, obrót",
+      ),
     ],
   },
   "J-6.3": {
@@ -230,7 +324,9 @@ const requirements: Record<string, GradeRequirements> = {
       uderzenia("Tettsui-komekami-uchi", "Uraken-shita-tsuki"),
       bloki("Osae-uke"),
       kopniecia("Mawashi-geri jodan"),
-      renraku("Trzy kroki w przód w zenkutsu-dachi z kin-geri / mae-geri / mawashi-geri plus gyaku-tsuki, obrót"),
+      renraku(
+        "Trzy kroki w przód w zenkutsu-dachi z kin-geri / mae-geri / mawashi-geri plus gyaku-tsuki, obrót",
+      ),
       kumite("15 × 1 minuta"),
       kata("Pinan I"),
       sprawnosc("10 razy przeskok w przód i w tył przez pas trzymany oburącz"),
@@ -243,7 +339,9 @@ const requirements: Record<string, GradeRequirements> = {
       uderzenia("Seiken-mawashi-uchi"),
       bloki("Morote-uke"),
       kopniecia("Yoko-geri chudan"),
-      renraku("Trzy kroki w przód w pozycji walki z mae-geri / mawashi-geri / yoko-geri plus gyaku-tate-tsuki, obrót"),
+      renraku(
+        "Trzy kroki w przód w pozycji walki z mae-geri / mawashi-geri / yoko-geri plus gyaku-tate-tsuki, obrót",
+      ),
       kumite("20 × 1 minuta"),
       kata("Pinan II"),
       sprawnosc("5 podciągnięć na drążku"),
@@ -258,10 +356,14 @@ const requirements: Record<string, GradeRequirements> = {
       uderzenia("Gohon-nukite"),
       bloki("Uchi-uke", "Gedan-barai"),
       kopniecia("Ushiro-geri chudan"),
-      renraku("Trzy kroki w przód w pozycji walki z oi-tate-tsuki plus gyaku-tate-tsuki, obrót"),
+      renraku(
+        "Trzy kroki w przód w pozycji walki z oi-tate-tsuki plus gyaku-tate-tsuki, obrót",
+      ),
       kumite("25 × 1 minuta"),
       kata("Sakugi III"),
-      sprawnosc("10 przeskoków ponad krzesłem z przewrotem przodem na materacu"),
+      sprawnosc(
+        "10 przeskoków ponad krzesłem z przewrotem przodem na materacu",
+      ),
     ],
   },
   "J-5.3": {
@@ -284,7 +386,12 @@ const requirements: Record<string, GradeRequirements> = {
   "S-10": {
     sections: [
       pozycje("Yoi", "Fudo Dachi", "Sanchin Dachi", "Zenkutsu Dachi"),
-      uderzenia("Seiken Oi Tsuki (J/C/G)", "Seiken Gyaku Tsuki (J/C/G)", "Seiken Morote Tsuki (J/C/G)", "Seiken Ago Uchi"),
+      uderzenia(
+        "Seiken Oi Tsuki (J/C/G)",
+        "Seiken Gyaku Tsuki (J/C/G)",
+        "Seiken Morote Tsuki (J/C/G)",
+        "Seiken Ago Uchi",
+      ),
       bloki("(Seiken/Shuto) Jodan Uke", "(Seiken/Shuto) Mae Gedan Barai"),
       kopniecia("Hiza Geri", "Kin Geri", "Mae Geri (J/C)"),
       ido("Zenkutsu Dachi", "Sanchin Dachi"),
@@ -297,9 +404,19 @@ const requirements: Record<string, GradeRequirements> = {
   "S-9": {
     sections: [
       pozycje("Musubi Dachi", "Heiko Dachi", "Heisoku Dachi", "Kokutsu Dachi"),
-      uderzenia("Seiken Shita Tsuki", "Seiken Tate Tsuki (J/C/G)", "Seiken Kagi Tsuki", "Hiji Ate (J/C)"),
+      uderzenia(
+        "Seiken Shita Tsuki",
+        "Seiken Tate Tsuki (J/C/G)",
+        "Seiken Kagi Tsuki",
+        "Hiji Ate (J/C)",
+      ),
       bloki("(Seiken/Shuto) Chudan Soto Uke", "(Seiken/Shuto) Chudan Uchi Uke"),
-      kopniecia("Mae Keage", "Yoko Keage", "Uchi Mawashi Keage", "Soto Mawashi Keage"),
+      kopniecia(
+        "Mae Keage",
+        "Yoko Keage",
+        "Uchi Mawashi Keage",
+        "Soto Mawashi Keage",
+      ),
       ido("Kokutsu Dachi"),
       kata("Taikyoku Sono San"),
       stamina("20 / 45 / 20"),
@@ -319,8 +436,15 @@ const requirements: Record<string, GradeRequirements> = {
       bloki("(Seiken/Shuto) Uchi Uke / Gedan Barai", "Morote Chudan Uchi Uke"),
       kopniecia("Kansetsu Geri", "Yoko Geri (J/C)", "Mawashi Geri (J/C/G)"),
       ido("Kiba Dachi"),
-      kata("Sokugi Taikyoku Sono Ichi", "Sokugi Taikyoku Sono Ni", "Sokugi Taikyoku Sono San"),
-      renraku("Mae geri, chudan gyaku tsuki", "Chudan soto uke, mae gedan barai, chudan gyaku tsuki"),
+      kata(
+        "Sokugi Taikyoku Sono Ichi",
+        "Sokugi Taikyoku Sono Ni",
+        "Sokugi Taikyoku Sono San",
+      ),
+      renraku(
+        "Mae geri, chudan gyaku tsuki",
+        "Chudan soto uke, mae gedan barai, chudan gyaku tsuki",
+      ),
       stamina("30 / 50 / 30", "Tobi geri"),
       kumite("Jiyu kumite 2 × 60 s"),
     ],
@@ -357,8 +481,17 @@ const requirements: Record<string, GradeRequirements> = {
         "Nihon Nukite",
         "Yonhon Nukite (J/C)",
       ),
-      bloki("Enkei Gyaku Tsuki", "Mawashi Gedan Barai", "Juji Gedan Barai", "Hiji Uke", "Jodan Shuto Uchi Uke"),
-      kopniecia("Ushiro Geri (J/C/G) – 3 metody", "Ushiro Mawashi Geri (J/C/G)"),
+      bloki(
+        "Enkei Gyaku Tsuki",
+        "Mawashi Gedan Barai",
+        "Juji Gedan Barai",
+        "Hiji Uke",
+        "Jodan Shuto Uchi Uke",
+      ),
+      kopniecia(
+        "Ushiro Geri (J/C/G) – 3 metody",
+        "Ushiro Mawashi Geri (J/C/G)",
+      ),
       ido("Kake Ashi Dachi"),
       kata("Pinan Sono Ni", "Pinan Sono San"),
       stamina("40 / 60 / 40", "Tobi geri + 15 cm"),
@@ -368,7 +501,12 @@ const requirements: Record<string, GradeRequirements> = {
   "S-5": {
     sections: [
       pozycje("Moro Ashi Dachi"),
-      uderzenia("Shotei Uchi (J/C/G)", "Age Hiji Ate (J/C)", "Oroshi Hiji Ate", "Jun Tsuki (J/C/G)"),
+      uderzenia(
+        "Shotei Uchi (J/C/G)",
+        "Age Hiji Ate (J/C)",
+        "Oroshi Hiji Ate",
+        "Jun Tsuki (J/C/G)",
+      ),
       bloki("Seiken/Shuto Juji Uke (J/G)", "Shotei Uke (J/C/G)"),
       kopniecia("Oroshi Uchi Kakato Geri", "Oroshi Soto Kakato Geri"),
       ido("Moro Ashi Dachi"),
@@ -379,11 +517,20 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "S-4": {
     sections: [
-      uderzenia("Koken Uchi (J/C/G)", "Mae Hiji Ate (J/C)", "Haishu Uchi (J/C)"),
+      uderzenia(
+        "Koken Uchi (J/C/G)",
+        "Mae Hiji Ate (J/C)",
+        "Haishu Uchi (J/C)",
+      ),
       bloki("Koken Uke (J/C/G)"),
       kopniecia("Kake Geri (J/C/G)"),
       ido("Ura Ido"),
-      kata("Pinan Sono Go", "Taikyoku Sono Ichi Ura", "Taikyoku Sono Ni Ura", "Taikyoku Sono San Ura"),
+      kata(
+        "Pinan Sono Go",
+        "Taikyoku Sono Ichi Ura",
+        "Taikyoku Sono Ni Ura",
+        "Taikyoku Sono San Ura",
+      ),
       renraku("Mae geri, yoko geri, ushiro geri, chudan gyaku tsuki"),
       stamina("50 / 70 / 50", "Tobi geri + 20 cm"),
       kumite("Jiyu kumite 6 × 60 s"),
@@ -391,7 +538,11 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "S-3": {
     sections: [
-      uderzenia("Hira Ken Tsuki (J/C)", "Hira Ken Oroshi Uchi", "Hira Ken Mawashi Uchi"),
+      uderzenia(
+        "Hira Ken Tsuki (J/C)",
+        "Hira Ken Oroshi Uchi",
+        "Hira Ken Mawashi Uchi",
+      ),
       bloki("Gedan Shuto Morote Uke", "Gedan Shotei Morote Uke"),
       kopniecia("Mae Kakato Geri (J/C/G)", "Age Kakato Ushiro Geri"),
       ido("Yon Ju Go Do Ido"),
@@ -429,7 +580,12 @@ const requirements: Record<string, GradeRequirements> = {
     sections: [
       uderzenia("Keiko Uchi", "Haito Uchi (J/C/G)", "Morote Haito Uchi (J/C)"),
       bloki("Chudan Haito Uchi Uke", "Osae Uke"),
-      kopniecia("Yoko Tobi Geri", "Mawashi Tobi Geri", "Ushiro Tobi Geri", "Ushiro Mawashi Tobi Geri"),
+      kopniecia(
+        "Yoko Tobi Geri",
+        "Mawashi Tobi Geri",
+        "Ushiro Tobi Geri",
+        "Ushiro Mawashi Tobi Geri",
+      ),
       kata("Gekisai Sho", "Yantsu"),
       renraku(
         "A: oi tsuki, gyaku tsuki, oi tsuki, shita tsuki",
@@ -441,7 +597,10 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "D-1": {
     sections: [
-      warunki("Wiek: co najmniej 16 lat (według niektórych wytycznych krajowych 18 lat)", "Staż: minimum 1 rok jako 1. kyu"),
+      warunki(
+        "Wiek: co najmniej 16 lat (według niektórych wytycznych krajowych 18 lat)",
+        "Staż: minimum 1 rok jako 1. kyu",
+      ),
       uderzenia("Toho Uchi", "Age Jodan Tsuki"),
       bloki("Morote Haito Uchi Uke"),
       kata(
@@ -452,7 +611,10 @@ const requirements: Record<string, GradeRequirements> = {
         "Pinan Sono Yon Ura",
         "Pinan Sono Go Ura",
       ),
-      renraku("Mawashi geri, ushiro mawashi geri", "Jodan mae geri, mawashi geri, ushiro mawashi geri"),
+      renraku(
+        "Mawashi geri, ushiro mawashi geri",
+        "Jodan mae geri, mawashi geri, ushiro mawashi geri",
+      ),
       stamina("75 / 150 / 75", "Tobi geri + 30 cm"),
       kumite("Jiyu kumite 20 × 60 s"),
     ],
@@ -493,11 +655,23 @@ export const examElements = [
   { name: "Ido geiko", description: "techniki w poruszaniu się" },
   { name: "Kata", description: "formy obowiązkowe na dany stopień" },
   { name: "Kumite", description: "walka kontaktowa" },
-  { name: "Tameshiwari", description: "testy łamania, zazwyczaj na wyższe stopnie (brązowe i czarne pasy)" },
-  { name: "Sprawność fizyczna", description: "pompki, brzuszki, przysiady, skoki" },
+  {
+    name: "Tameshiwari",
+    description:
+      "testy łamania, zazwyczaj na wyższe stopnie (brązowe i czarne pasy)",
+  },
+  {
+    name: "Sprawność fizyczna",
+    description: "pompki, brzuszki, przysiady, skoki",
+  },
 ];
 
+// Egzaminy na kyu odbywają się 2 razy w roku, więc między stopniami jest pół roku treningów.
+export const KYU_MIN_TRAINING =
+  "Minimum pół roku treningów od poprzedniego egzaminu (egzaminy odbywają się 2 razy w roku)";
+
 export const examFormalRequirements = [
+  KYU_MIN_TRAINING,
   "Opłacone składki członkowskie",
   "Zgoda instruktora na przystąpienie do egzaminu",
   "Oficjalny paszport KWF (na wyższe stopnie)",
@@ -567,7 +741,9 @@ export function techniqueSlug(item: string): string {
 export function requirementsMarkdown(code: string): string | null {
   const req = getGradeRequirements(code);
   if (!req) return null;
-  const lines = req.sections.map((s) => `- **${s.label}:** ${s.items.join("; ")}`);
+  const lines = req.sections.map(
+    (s) => `- **${s.label}:** ${s.items.join("; ")}`,
+  );
   if (req.note) lines.push(req.note);
   return lines.join("\n");
 }
@@ -580,7 +756,9 @@ export type RequirementTechnique = {
 };
 
 // Wszystkie techniki z wymagań (bez powtórzeń) – seed tworzy z nich katalog technik.
-export function requirementTechniques(gradeCodes: string[]): RequirementTechnique[] {
+export function requirementTechniques(
+  gradeCodes: string[],
+): RequirementTechnique[] {
   const seen = new Map<string, RequirementTechnique>();
   for (const code of gradeCodes) {
     for (const section of getGradeRequirements(code)?.sections ?? []) {
@@ -588,7 +766,12 @@ export function requirementTechniques(gradeCodes: string[]): RequirementTechniqu
       for (const item of section.items) {
         const slug = techniqueSlug(item);
         if (!seen.has(slug)) {
-          seen.set(slug, { slug, name: techniqueName(item), category: section.category ?? "kihon", firstGradeCode: code });
+          seen.set(slug, {
+            slug,
+            name: techniqueName(item),
+            category: section.category ?? "kihon",
+            firstGradeCode: code,
+          });
         }
       }
     }
