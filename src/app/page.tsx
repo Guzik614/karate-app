@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HomeArt, type HomeArtKind } from "@/components/home-art";
-import { HeroScene } from "@/components/hero-scene";
+import { HeroVideo } from "@/components/hero-video";
 
 const SECTIONS = [
   {
@@ -59,7 +59,7 @@ export default function Home() {
   return (
     <div className="space-y-10">
       <section className="relative min-h-[22rem] overflow-hidden rounded-2xl border border-border bg-background p-8 md:min-h-[24rem]">
-        <HeroScene />
+        <HeroVideo />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent md:via-background/35" />
         <div className="relative max-w-xl">
         <p className="text-4xl font-bold text-accent-text">押忍</p>
