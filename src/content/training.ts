@@ -1,10 +1,12 @@
 import type { Technique } from "@/lib/types";
+import { requirementTechniques } from "./grade-requirements";
+import { seedGrades } from "./grades";
 
 // Przykładowe techniki i program. Wideo podpinasz w panelu admina (upload do Mux).
 
 type SeedTechnique = Omit<Technique, "id" | "mux_playback_id">;
 
-export const seedTechniques: SeedTechnique[] = [
+const baseTechniques: SeedTechnique[] = [
   {
     slug: "seiken-chudan-tsuki",
     name: "Seiken chudan tsuki",
@@ -70,6 +72,30 @@ export const seedTechniques: SeedTechnique[] = [
       "Trzy ataki seiken jodan oi tsuki i trzy bloki jodan uke z kontrą na koniec. Uczy dystansu i timingu.",
     sort_order: 1,
   },
+];
+
+// Każda technika z wymagań egzaminacyjnych dostaje własny wpis, do którego admin podpina film.
+const gradeLabel = new Map(seedGrades.map((g) => [g.code, g.label]));
+const baseSlugs = new Set(baseTechniques.map((t) => t.slug));
+
+export const seedTechniques: SeedTechnique[] = [
+  ...baseTechniques,
+  // Najpierw seniorzy i dan, żeby nazwy technik pochodziły z tabeli KWF.
+  ...requirementTechniques([
+    ...seedGrades.filter((g) => g.track === "senior").map((g) => g.code),
+    ...seedGrades.filter((g) => g.track === "junior").map((g) => g.code),
+  ])
+    .filter((t) => !baseSlugs.has(t.slug))
+    .map((t, i) => ({
+      slug: t.slug,
+      name: t.name,
+      name_jp: null,
+      category: t.category,
+      subcategory: null,
+      belt_level: gradeLabel.get(t.firstGradeCode) ?? null,
+      description: null,
+      sort_order: 100 + i,
+    })),
 ];
 
 // Każdy program przygotowuje do jednego stopnia (grade_code z src/content/grades.ts).

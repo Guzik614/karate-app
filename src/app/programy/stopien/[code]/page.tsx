@@ -3,8 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Belt, beltDescription } from "@/components/belt";
 import { CardLink } from "@/components/card-link";
-import { Markdown } from "@/components/markdown";
-import { getGrades, getPrograms } from "@/lib/data";
+import { TechniqueVideoButton } from "@/components/technique-video-button";
+import { getGradeRequirements, techniqueName, techniqueSlug } from "@/content/grade-requirements";
+import { getGrades, getPrograms, getTechniques } from "@/lib/data";
 import type { Grade } from "@/lib/types";
 
 async function findGrade(code: string) {
@@ -27,7 +28,10 @@ export default async function GradePrepPage({ params }: PageProps<"/programy/sto
   const { code } = await params;
   const grade = await findGrade(code);
   if (!grade) notFound();
-  const programs = (await getPrograms()).filter((p) => p.grade_code === grade.code);
+  const [allPrograms, techniques] = await Promise.all([getPrograms(), getTechniques()]);
+  const programs = allPrograms.filter((p) => p.grade_code === grade.code);
+  const videos = new Map(techniques.map((t) => [t.slug, t]));
+  const requirements = getGradeRequirements(grade.code);
 
   return (
     <article className="mx-auto max-w-3xl space-y-8">
@@ -45,16 +49,49 @@ export default async function GradePrepPage({ params }: PageProps<"/programy/sto
 
       <section className="rounded-xl border border-border bg-card p-5">
         <h2 className="mb-3 text-xl font-semibold">Wymagania egzaminacyjne</h2>
-        {grade.requirements ? (
+        {requirements?.sections.length ? (
           <>
-            <Markdown>{grade.requirements}</Markdown>
-            <p className="mt-4 text-sm text-muted">
-              Wymagania Polskiej Organizacji Karate Kyokushin (KWF). Na egzaminie obowiązują też wszystkie wymagania
-              z niższych stopni.
+            <p className="mb-4 text-sm text-muted">Kliknij technikę oznaczoną ▶, aby obejrzeć film instruktażowy.</p>
+            <dl className="space-y-4">
+              {requirements.sections.map((section, i) => (
+                <div key={i}>
+                  <dt className="mb-1.5 text-sm font-semibold tracking-wide text-accent-text">{section.label}</dt>
+                  <dd>
+                    {section.video ? (
+                      <ul className="flex flex-wrap gap-2">
+                        {section.items.map((item) => {
+                          const slug = techniqueSlug(item);
+                          const technique = videos.get(slug);
+                          return (
+                            <li key={item}>
+                              <TechniqueVideoButton
+                                label={item}
+                                slug={slug}
+                                name={technique?.name ?? techniqueName(item)}
+                                playbackId={technique?.mux_playback_id ?? null}
+                              />
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      <ul className="list-disc space-y-1 pl-5 marker:text-accent">
+                        {section.items.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-5 text-sm text-muted">
+              Wymagania KWF (Kyokushin World Federation). Na egzaminie obowiązują też wszystkie wymagania z niższych
+              stopni. ▶ w kolorze oznacza, że film jest już dostępny.
             </p>
           </>
         ) : (
-          <p className="text-muted">Wymagania na ten stopień są w przygotowaniu.</p>
+          <p className="text-muted">{requirements?.note ?? "Wymagania na ten stopień są w przygotowaniu."}</p>
         )}
       </section>
 

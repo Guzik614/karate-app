@@ -49,10 +49,12 @@ async function main() {
       ),
   );
 
-  const techniques = await run(
-    "techniki",
-    supabase.from("techniques").upsert(seedTechniques, { onConflict: "slug" }).select("id, slug"),
+  // Dodajemy tylko brakujące techniki, żeby nie nadpisać opisów i filmów dodanych w panelu admina.
+  await run(
+    "techniki z wymagań egzaminacyjnych",
+    supabase.from("techniques").upsert(seedTechniques, { onConflict: "slug", ignoreDuplicates: true }),
   );
+  const techniques = await run("lista technik", supabase.from("techniques").select("id, slug"));
   const techniqueId = new Map(techniques!.map((t) => [t.slug, t.id]));
 
   for (const { items, ...program } of seedPrograms) {
