@@ -49,6 +49,7 @@ const SECTIONS = [
   {
     href: "/klub",
     photo: "/klub/ring.jpg",
+    logo: "/klub/logo-dfc.png",
     title: "Dragon Fight Club Radom",
     subtitle: "Kadra, Akademia 50+, zdjęcia sali i kontakt.",
     meta: "Klub",
@@ -104,10 +105,11 @@ type HomeCardProps = {
   meta: string;
   art?: HomeArtKind;
   photo?: string;
+  logo?: string;
 };
 
 // Kafelek z grafiką w jednym stylu: ciemne tło, czerwona poświata, jasna sylwetka albo zdjęcie klubu.
-function HomeCard({ href, title, subtitle, meta, art, photo }: HomeCardProps) {
+function HomeCard({ href, title, subtitle, meta, art, photo, logo }: HomeCardProps) {
   return (
     <Link
       href={href}
@@ -124,7 +126,12 @@ function HomeCard({ href, title, subtitle, meta, art, photo }: HomeCardProps) {
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
-            <div className="absolute inset-0 bg-accent/10 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-background/55" />
+            {logo && (
+              <div className="absolute inset-0 p-4 transition-transform duration-500 group-hover:scale-105">
+                <Image src={logo} alt="" fill sizes="320px" className="object-contain p-4 drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]" />
+              </div>
+            )}
           </>
         ) : (
           art && (
