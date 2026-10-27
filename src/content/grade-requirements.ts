@@ -926,3 +926,9 @@ export function requirementTechniques(
   }
   return [...seen.values()];
 }
+
+// Sortuje techniki w kolejności wymagań: od najniższego stopnia, a w stopniu pozycje, uderzenia, bloki, kopnięcia…
+export function sortByRequirements<T extends { slug: string }>(techniques: T[], gradeCodes: string[]): T[] {
+  const position = new Map(requirementTechniques(gradeCodes).map((t, i) => [t.slug, i]));
+  return techniques.toSorted((a, b) => (position.get(a.slug) ?? Infinity) - (position.get(b.slug) ?? Infinity));
+}
