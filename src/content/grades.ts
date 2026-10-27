@@ -10,7 +10,7 @@ export const JUNIOR_MAX_AGE = 15;
 export const SENIOR_MIN_AGE = 16;
 export const LOWEST_SENIOR_ONLY_KYU = 4;
 export const JUNIOR_SUBGRADES = 3;
-export const MAX_DAN = 10;
+export const MAX_DAN = 8; // KWF: stopnie mistrzowskie od 1. do 8. dan
 
 // Artykuł w Teorii i Wiedzy, pod którym wyświetlamy pełne tabele stopni.
 export const GRADES_ARTICLE_SLUG = "system-stopni-kyu-dan";

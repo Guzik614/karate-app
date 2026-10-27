@@ -142,7 +142,7 @@ Trening kończy recytacja **Dojo Kun**, mokuso i ukłony. Po treningu dziękujem
     category_slug: "stopnie-i-egzaminy",
     published: true,
     sort_order: 1,
-    body: `W Kyokushin stopnie uczniowskie (**kyu**) liczy się w dół, od 10. do 1. kyu. Potem zaczynają się stopnie mistrzowskie (**dan**), liczone w górę od 1. do 10. dan. W naszym klubie obowiązują dwa tory: **Junior** i **Senior**.
+    body: `W Kyokushin stopnie uczniowskie (**kyu**) liczy się w dół, od 10. do 1. kyu. Potem zaczynają się stopnie mistrzowskie (**dan**), liczone w górę od 1. do 8. dan. W naszym klubie obowiązują dwa tory: **Junior** i **Senior**.
 
 ## Junior: do 15. roku życia
 
@@ -164,7 +164,7 @@ Na nieparzystym kyu pas ma belkę w kolorze kolejnego pasa.
 
 ## Dan: stopnie mistrzowskie
 
-Czarny pas ze złotymi belkami: 1 dan to jedna złota belka, 2 dan dwie, i tak dalej aż do 10 dan.
+Czarny pas ze złotymi belkami: 1 dan to jedna złota belka, 2 dan dwie, i tak dalej aż do 8 dan.
 
 Pełne tabele z rysunkami pasów znajdziesz poniżej i na stronie [Stopnie i pasy](/wiedza/stopnie).`,
   },

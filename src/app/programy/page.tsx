@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Belt } from "@/components/belt";
 import { CardLink, PageHeader } from "@/components/card-link";
-import { JUNIOR_MAX_AGE, SENIOR_MIN_AGE } from "@/content/grades";
+import { examElements, examFormalRequirements } from "@/content/grade-requirements";
+import { JUNIOR_MAX_AGE, MAX_DAN, SENIOR_MIN_AGE } from "@/content/grades";
 import { getGrades, getPrograms } from "@/lib/data";
 import type { Grade, Program } from "@/lib/types";
 
@@ -33,7 +34,7 @@ export default async function ProgramsPage() {
       detail: `od ${SENIOR_MIN_AGE} lat · 10, 9, 8… kyu`,
       grades: grades.filter((g) => g.track === "senior" && g.kyu !== null),
     },
-    { name: "Stopnie mistrzowskie", detail: "1–10 dan", grades: grades.filter((g) => g.dan !== null) },
+    { name: "Stopnie mistrzowskie", detail: `1–${MAX_DAN} dan`, grades: grades.filter((g) => g.dan !== null) },
   ];
 
   return (
@@ -63,6 +64,28 @@ export default async function ProgramsPage() {
           </div>
         </section>
       )}
+
+      <section className="mb-10 grid gap-3 md:grid-cols-[2fr_1fr]">
+        <div className="rounded-xl border border-border bg-card p-4">
+          <h2 className="font-semibold">Co sprawdza egzamin na kyu</h2>
+          <ul className="mt-2 grid gap-x-6 gap-y-1 text-sm sm:grid-cols-2">
+            {examElements.map((e) => (
+              <li key={e.name}>
+                <span className="font-medium text-accent-text">{e.name}</span>
+                <span className="text-muted"> – {e.description}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="rounded-xl border border-border bg-card p-4">
+          <h2 className="font-semibold">Wymogi formalne</h2>
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted marker:text-accent">
+            {examFormalRequirements.map((r) => (
+              <li key={r}>{r}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       <div className="space-y-10">
         {tracks.map((track) => (

@@ -4,7 +4,7 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { seedGlossary } from "../src/content/glossary";
-import { seedGrades } from "../src/content/grades";
+import { MAX_DAN, seedGrades } from "../src/content/grades";
 import { knowledgeCategories, seedArticles } from "../src/content/knowledge";
 import { seedPrograms, seedTechniques } from "../src/content/training";
 
@@ -30,6 +30,7 @@ async function run<T>(label: string, promise: PromiseLike<{ data: T; error: unkn
 async function main() {
   // Stopnie razem z wymaganiami egzaminacyjnymi KWF (src/content/grade-requirements.ts).
   await run("stopnie i wymagania egzaminacyjne", supabase.from("grades").upsert(seedGrades, { onConflict: "code" }));
+  await run(`usunięcie stopni powyżej ${MAX_DAN}. dan`, supabase.from("grades").delete().gt("dan", MAX_DAN));
   await run(
     "kategorie wiedzy",
     supabase.from("knowledge_categories").upsert(knowledgeCategories, { onConflict: "slug" }),

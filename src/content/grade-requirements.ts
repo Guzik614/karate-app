@@ -2,7 +2,8 @@
 // Źródła:
 //   juniorzy 10.1–5.3: karate.org.pl/kyokushin/wym_jun.php oraz lista „Wymagania do 15 roku życia”
 //                      od Senseia Łukasza Guzika,
-//   seniorzy 10–1 kyu i 1–4 dan: tabela „Wymagania egzaminacyjne KWF” (dorośli, PDF).
+//   seniorzy 10–1 kyu i 1–4 dan: tabela „Wymagania egzaminacyjne KWF” (dorośli, PDF),
+//   wiek i staż na dan: karate.org.pl/kyokushin/wym_sen.php.
 // Każdy stopień obejmuje też wymagania wszystkich niższych stopni.
 //
 // Pozycje w sekcjach z `video: true` to techniki: przy każdej aplikacja pokazuje przycisk filmu.
@@ -46,6 +47,7 @@ const kokyu = (...items: string[]): RequirementSection => ({ label: "Kokyu ho (o
 const renraku = (...items: string[]): RequirementSection => ({ label: "Renraku (kombinacje)", items });
 const sprawnosc = (...items: string[]): RequirementSection => ({ label: "Test sprawności", items });
 const teoria = (...items: string[]): RequirementSection => ({ label: "Teoria i komendy", items });
+const warunki = (...items: string[]): RequirementSection => ({ label: "Wiek i staż", items });
 const dyplomy = (...items: string[]): RequirementSection => ({ label: "Uprawnienia", items });
 
 // Stamina w tabeli KWF: pompki / brzuszki / przysiady.
@@ -439,6 +441,7 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "D-1": {
     sections: [
+      warunki("Wiek: co najmniej 16 lat (według niektórych wytycznych krajowych 18 lat)", "Staż: minimum 1 rok jako 1. kyu"),
       uderzenia("Toho Uchi", "Age Jodan Tsuki"),
       bloki("Morote Haito Uchi Uke"),
       kata(
@@ -456,6 +459,7 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "D-2": {
     sections: [
+      warunki("Wiek: co najmniej 19 lat", "Staż: minimum 3 lata jako 1. dan"),
       kata("Seipai", "Seienchin"),
       stamina("75 / 150 / 75", "Tobi geri + 30 cm"),
       kumite("Jiyu kumite 30 × 60 s"),
@@ -464,6 +468,7 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "D-3": {
     sections: [
+      warunki("Wiek: co najmniej 25 lat", "Staż: minimum 4 lata jako 2. dan"),
       kata("Kanku", "Garyu"),
       { label: "Kata autorskie", items: ["Własne kata"] },
       stamina("75 / 150 / 75", "Tobi geri + 30 cm"),
@@ -473,6 +478,7 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "D-4": {
     sections: [
+      warunki("Wiek: co najmniej 30 lat", "Staż: minimum 5 lat jako 3. dan"),
       kata("Sushiho"),
       stamina("75 / 150 / 75", "Tobi geri + 30 cm"),
       kumite("Jiyu kumite 50 × 60 s"),
@@ -480,6 +486,22 @@ const requirements: Record<string, GradeRequirements> = {
     ],
   },
 };
+
+// Co sprawdza egzamin na stopnie kyu i jakie są wymogi formalne (zasady ogólne KWF).
+export const examElements = [
+  { name: "Kihon", description: "techniki podstawowe w miejscu" },
+  { name: "Ido geiko", description: "techniki w poruszaniu się" },
+  { name: "Kata", description: "formy obowiązkowe na dany stopień" },
+  { name: "Kumite", description: "walka kontaktowa" },
+  { name: "Tameshiwari", description: "testy łamania, zazwyczaj na wyższe stopnie (brązowe i czarne pasy)" },
+  { name: "Sprawność fizyczna", description: "pompki, brzuszki, przysiady, skoki" },
+];
+
+export const examFormalRequirements = [
+  "Opłacone składki członkowskie",
+  "Zgoda instruktora na przystąpienie do egzaminu",
+  "Oficjalny paszport KWF (na wyższe stopnie)",
+];
 
 const HIGHER_DAN_NOTE = "Tabela KWF nie podaje wymagań na ten stopień.";
 
