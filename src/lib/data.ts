@@ -1,5 +1,6 @@
 import "server-only";
 import { seedGlossary } from "@/content/glossary";
+import { seedGrades } from "@/content/grades";
 import { knowledgeCategories, seedArticles } from "@/content/knowledge";
 import { seedPrograms, seedTechniques } from "@/content/training";
 import { isSupabaseConfigured } from "./supabase/env";
@@ -7,12 +8,16 @@ import { createClient } from "./supabase/server";
 import type {
   Article,
   GlossaryTerm,
+  Grade,
   KnowledgeCategory,
   Program,
   ProgramItem,
   Technique,
   TechniqueCategory,
 } from "./types";
+
+// Warstwa dostępu do danych. Gdy Supabase nie jest skonfigurowany,
+// zwraca treści startowe z src/content, żeby aplikację dało się od razu obejrzeć.
 
 const TECHNIQUE_FIELDS =
   "id, slug, name, name_jp, category, subcategory, belt_level, description, mux_playback_id, sort_order";
@@ -30,6 +35,8 @@ const localArticles: Article[] = seedArticles.map((a) => ({
   id: a.slug,
   updated_at: "2026-10-20T00:00:00Z",
 }));
+
+// ───────────────────────── Techniki ─────────────────────────
 
 export async function getTechniques(category?: TechniqueCategory): Promise<Technique[]> {
   if (!isSupabaseConfigured) {
@@ -56,6 +63,8 @@ export async function getTechnique(slug: string): Promise<Technique | null> {
   if (error) throw error;
   return data;
 }
+
+// ───────────────────────── Programy ─────────────────────────
 
 export async function getPrograms(): Promise<Program[]> {
   if (!isSupabaseConfigured) {
@@ -117,6 +126,8 @@ export async function getProgram(
   return { program, items };
 }
 
+// ───────────────────────── Teoria i Wiedza ─────────────────────────
+
 export async function getKnowledgeCategories(): Promise<KnowledgeCategory[]> {
   if (!isSupabaseConfigured) return knowledgeCategories;
   const supabase = await createClient();
@@ -134,6 +145,7 @@ export async function getArticles(options: { includeDrafts?: boolean } = {}): Pr
   }
   const supabase = await createClient();
   let query = supabase.from("articles").select(ARTICLE_FIELDS).order("sort_order");
+  // RLS i tak ukrywa szkice przed nie-adminami; filtr upraszcza widok publiczny dla admina.
   if (!options.includeDrafts) query = query.eq("published", true);
   const { data, error } = await query;
   if (error) throw error;
@@ -181,25 +193,18 @@ export async function getGlossary(): Promise<GlossaryTerm[]> {
   return data;
 }
 
-export interface Grade {
-  id: number;
-  name: string;
-  rank_order: number;
-  category: 'junior' | 'senior' | 'dan';
-  belt_color: string;
-  min_age: number | null;
-  description: string | null;
-}
+// ───────────────────────── Stopnie ─────────────────────────
 
 export async function getGrades(): Promise<Grade[]> {
-  if (!isSupabaseConfigured) {
-    return [];
-  }
+  if (!isSupabaseConfigured) return seedGrades;
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("grades")
-    .select("id, name, rank_order, category, belt_color, min_age, description")
-    .order("rank_order", { ascending: true });
+    .select(
+      "code, track, kyu, dan, sub, label, belt_color, stripe_color, red_stripes, gold_stripes, min_age, max_age, sort_order, requirements",
+    )
+    .order("track")
+    .order("sort_order");
   if (error) throw error;
-  return data || [];
+  return data;
 }

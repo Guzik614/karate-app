@@ -19,19 +19,32 @@ export default async function KnowledgePage() {
         lead="Historia Kyokushin, Dojo Kun, etykieta, słowniczek japońskich pojęć i artykuły edukacyjne."
       />
 
-      <Link
-        href="/wiedza/slowniczek"
-        className="mb-8 flex items-center justify-between rounded-xl border border-accent/40 bg-accent/5 p-5 transition-colors hover:bg-accent/10"
-      >
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-accent-text">Słowniczek</p>
-          <h2 className="text-xl font-semibold">Japońskie pojęcia i techniki</h2>
-          <p className="text-sm text-muted">
-            {glossary.length} pojęć: komendy, pozycje, ciosy, kopnięcia, bloki i kata.
-          </p>
-        </div>
-        <span className="text-3xl text-accent-text">辞</span>
-      </Link>
+      <div className="mb-8 grid gap-3 md:grid-cols-2">
+        <Link
+          href="/wiedza/slowniczek"
+          className="flex items-center justify-between rounded-xl border border-accent/40 bg-accent/5 p-5 transition-colors hover:bg-accent/10"
+        >
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wide text-accent-text">Słowniczek</p>
+            <h2 className="text-xl font-semibold">Japońskie pojęcia i techniki</h2>
+            <p className="text-sm text-muted">
+              {glossary.length} pojęć: komendy, pozycje, ciosy, kopnięcia, bloki i kata.
+            </p>
+          </div>
+          <span className="text-3xl text-accent-text">辞</span>
+        </Link>
+        <Link
+          href="/wiedza/stopnie"
+          className="flex items-center justify-between rounded-xl border border-accent/40 bg-accent/5 p-5 transition-colors hover:bg-accent/10"
+        >
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wide text-accent-text">Stopnie i pasy</p>
+            <h2 className="text-xl font-semibold">Junior i Senior</h2>
+            <p className="text-sm text-muted">Podstopnie juniorów (10.1–5.2), pełne kyu seniorów i stopnie dan.</p>
+          </div>
+          <span className="text-3xl text-accent-text">帯</span>
+        </Link>
+      </div>
 
       <div className="space-y-8">
         {categories.map((category) => {
