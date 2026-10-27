@@ -1,3 +1,4 @@
+
 import "server-only";
 import { seedGlossary } from "@/content/glossary";
 import { knowledgeCategories, seedArticles } from "@/content/knowledge";
@@ -143,7 +144,6 @@ export async function getArticles(options: { includeDrafts?: boolean } = {}): Pr
   }
   const supabase = await createClient();
   let query = supabase.from("articles").select(ARTICLE_FIELDS).order("sort_order");
-  // RLS i tak ukrywa szkice przed nie-adminami; filtr upraszcza widok publiczny dla admina.
   if (!options.includeDrafts) query = query.eq("published", true);
   const { data, error } = await query;
   if (error) throw error;
@@ -190,30 +190,7 @@ export async function getGlossary(): Promise<GlossaryTerm[]> {
   if (error) throw error;
   return data;
 }
-// ───────────────────────── Stopnie (Grades) ─────────────────────────
 
-export interface Grade {
-  id: number;
-  name: string;
-  rank_order: number;
-  category: 'junior' | 'senior' | 'dan';
-  belt_color: string;
-  min_age: number | null;
-  description: string | null;
-}
-
-export async function getGrades(): Promise<Grade[]> {
-  if (!isSupabaseConfigured) {
-    return [];
-  }
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("grades")
-    .select("id, name, rank_order, category, belt_color, min_age, description")
-    .order("rank_order", { ascending: true });
-  if (error) throw error;
-  return data || [];
-}
 // ───────────────────────── Stopnie (Grades) ─────────────────────────
 
 export interface Grade {
