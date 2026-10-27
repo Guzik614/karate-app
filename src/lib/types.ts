@@ -20,6 +20,7 @@ export type Program = {
   description: string | null;
   level: string | null;
   duration_weeks: number | null;
+  grade_code: string | null; // stopień, do którego przygotowuje program
 };
 
 export type ProgramItem = {
