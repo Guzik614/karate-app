@@ -68,14 +68,14 @@ export default async function ProgramsPage() {
       <section className="mb-10 grid gap-3 md:grid-cols-[2fr_1fr]">
         <div className="rounded-xl border border-border bg-card p-4">
           <h2 className="font-semibold">Co sprawdza egzamin na kyu</h2>
-          <ul className="mt-2 grid gap-x-6 gap-y-1 text-sm sm:grid-cols-2">
+          <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm marker:text-accent">
             {examElements.map((e) => (
               <li key={e.name}>
                 <span className="font-medium text-accent-text">{e.name}</span>
                 <span className="text-muted"> – {e.description}</span>
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
         <div className="rounded-xl border border-border bg-card p-4">
           <h2 className="font-semibold">Wymogi formalne</h2>
