@@ -106,7 +106,7 @@ export default function Home() {
 
 // Rolki klubu Dragon Fight Club Radom jako intro dla nowych osób. Pionowe, z dźwiękiem, startują po kliknięciu.
 const INTRO_REELS = [
-  { src: "/wideo/pokolenia-1.mp4", poster: "/wideo/pokolenia-1.jpg?v=3", label: "Część 1 · Przygotowanie" },
+  { src: "/wideo/pokolenia-1.mp4", poster: "/wideo/pokolenia-1.jpg?v=4", label: "Część 1 · Przygotowanie" },
   { src: "/wideo/pokolenia-2.mp4", poster: "/wideo/pokolenia-2.jpg?v=2", label: "Część 2 · Pokolenia" },
 ];
 
