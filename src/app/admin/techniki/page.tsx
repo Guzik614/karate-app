@@ -1,12 +1,18 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
-import { getTechniques } from "@/lib/data";
+import { sortByRequirements } from "@/content/grade-requirements";
+import { getGrades, getTechniques } from "@/lib/data";
 import { TECHNIQUE_CATEGORY_LABELS } from "@/lib/types";
 import { VideoUpload } from "./video-upload";
 
 export default async function AdminTechniquesPage() {
   await requireAdmin();
-  const techniques = await getTechniques();
+  const [all, grades] = await Promise.all([getTechniques(), getGrades()]);
+  // Od najniższego stopnia: najpierw tor seniorski i dan, potem techniki tylko z wymagań juniorskich.
+  const techniques = sortByRequirements(all, [
+    ...grades.filter((g) => g.track === "senior").map((g) => g.code),
+    ...grades.filter((g) => g.track === "junior").map((g) => g.code),
+  ]);
 
   return (
     <>
@@ -23,6 +29,7 @@ export default async function AdminTechniquesPage() {
                 {t.name}
               </Link>
               <p className="text-sm text-muted">
+                {t.belt_level && `${t.belt_level} · `}
                 {TECHNIQUE_CATEGORY_LABELS[t.category]} ·{" "}
                 {t.mux_playback_id ? "wideo dodane" : "brak wideo"}
               </p>

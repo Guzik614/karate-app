@@ -15,6 +15,7 @@ export type RequirementSection = {
   label: string;
   items: string[];
   video?: boolean;
+  exercise?: boolean; // ćwiczenia z testu sprawności (film ćwiczenia zamiast techniki)
   category?: TechniqueCategory; // domyślnie kihon
 };
 
@@ -81,6 +82,8 @@ const renraku = (...items: string[]): RequirementSection => ({
 const sprawnosc = (...items: string[]): RequirementSection => ({
   label: "Test sprawności",
   items,
+  video: true,
+  exercise: true,
 });
 const teoria = (...items: string[]): RequirementSection => ({
   label: "Teoria i komendy",
@@ -96,18 +99,29 @@ const dyplomy = (...items: string[]): RequirementSection => ({
 });
 
 // Stamina w tabeli KWF: pompki / brzuszki / przysiady.
-const stamina = (reps: string, tobiGeri?: string) =>
-  sprawnosc(
-    `Pompki / brzuszki / przysiady: ${reps}`,
+const stamina = (reps: string, tobiGeri?: string) => {
+  const [pompki, brzuszki, przysiady] = reps.split("/").map((r) => r.trim());
+  return sprawnosc(
+    `Pompki: ${pompki}`,
+    `Brzuszki: ${brzuszki}`,
+    `Przysiady: ${przysiady}`,
     ...(tobiGeri ? [tobiGeri] : []),
   );
+};
 
 const requirements: Record<string, GradeRequirements> = {
   // ───────────── Junior (do 15 lat) ─────────────
   "J-10.1": {
     sections: [
       teoria(
-        "Zasady bezpieczeństwa: sala, szatnia, ubiór itp. Strefy: jodan, chudan, gedan. Znaczenie słowa kiai – okrzyk.",
+        "Dojo – sala treningowa, miejsce nauki karate",
+        "Bezpieczeństwo w dojo – ćwiczymy tylko na polecenie instruktora, nie biegamy, o każdym urazie mówimy od razu",
+        "Szatnia – zachowujemy porządek i spokój, nie zostawiamy cennych rzeczy",
+        "Ubiór – czyste karategi, bez biżuterii i zegarka, krótko obcięte paznokcie",
+        "Jodan – strefa górna (głowa)",
+        "Chudan – strefa środkowa (tułów)",
+        "Gedan – strefa dolna (poniżej pasa)",
+        "Kiai – głośny, dynamiczny okrzyk",
       ),
       pozycje("Fudo-dachi"),
       uderzenia("Morote-tsuki (jodan, chudan, gedan)"),
@@ -121,7 +135,9 @@ const requirements: Record<string, GradeRequirements> = {
   "J-10.2": {
     sections: [
       teoria(
-        "Pozycja seiza – siadanie i wstawanie, ukłony. Znaczenie słowa naore – powrót.",
+        "Seiza – siad klęczny na piętach: siadamy od lewego kolana, wstajemy od prawej nogi",
+        "Rei – ukłon: przy wejściu i wyjściu z dojo, na początku i końcu treningu, przed i po ćwiczeniu z partnerem",
+        "Naore – powrót do pozycji wyjściowej",
       ),
       pozycje("Zenkutsu-dachi"),
       uderzenia("Uraken-shomen-uchi"),
@@ -135,7 +151,10 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-10.3": {
     sections: [
-      teoria("Znaczenie słów karate i osu."),
+      teoria(
+        "Karate – pusta ręka (kara – pusty, te – ręka)",
+        "Osu – słowo szacunku i gotowości: na powitanie, na znak zrozumienia polecenia i podziękowania",
+      ),
       pozycje("Heiko-dachi", "Yoi-dachi"),
       uderzenia("Seiken-tsuki (jodan, chudan, gedan)"),
       bloki("Gedan-barai"),
@@ -151,7 +170,9 @@ const requirements: Record<string, GradeRequirements> = {
   "J-9.1": {
     sections: [
       teoria(
-        "Prawidłowy wygląd karategi i wiązanie pasa. Liczenie po japońsku do 10.",
+        "Karategi – strój do karate: czysty, lewa poła bluzy na wierzchu",
+        "Obi – pas: wiązany płaskim węzłem, końce równej długości",
+        "Liczenie do 10 – ichi (1), ni (2), san (3), shi (4), go (5), roku (6), shichi (7), hachi (8), ku (9), ju (10)",
       ),
       pozycje("Heisoku-dachi"),
       uderzenia("Oi-tsuki (jodan, chudan, gedan)"),
@@ -166,7 +187,11 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-9.2": {
     sections: [
-      teoria("Znaczenie słów sensei, shihan, sempai."),
+      teoria(
+        "Sensei – nauczyciel, instruktor",
+        "Shihan – mistrz, nauczyciel instruktorów",
+        "Sempai – starszy stopniem kolega",
+      ),
       pozycje("Musubi-dachi"),
       uderzenia("Gyaku-tsuki (jodan, chudan, gedan)"),
       bloki("Soto-uke"),
@@ -180,7 +205,12 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-9.3": {
     sections: [
-      teoria("Znaczenie słów kyoku-shin-kai."),
+      teoria(
+        "Kyoku – ostateczny, najwyższy",
+        "Shin – prawda",
+        "Kai – stowarzyszenie, spotkanie",
+        "Kyokushinkai – stowarzyszenie ostatecznej prawdy",
+      ),
       pozycje("Nekoashi-dachi"),
       uderzenia("Seiken-ago-uchi"),
       bloki("Uchi-uke"),
@@ -196,7 +226,9 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-8.1": {
     sections: [
-      teoria("Przysięga dojo."),
+      teoria(
+        "Dojo kun – przysięga dojo: 7 punktów recytowanych na zakończenie treningu",
+      ),
       pozycje("Kokutsu-dachi"),
       uderzenia("Shuto-sakotsu-uchi-komi"),
       bloki("Soto-keage"),
@@ -212,7 +244,9 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-8.2": {
     sections: [
-      teoria("Oddychanie – nogare I."),
+      teoria(
+        "Nogare I – spokojne oddychanie: wdech nosem, długi, cichy wydech ustami; uspokaja oddech po wysiłku",
+      ),
       pozycje("Moroashi-dachi", "Uchi-hachiji-dachi"),
       uderzenia("Shuto-sakotsu-uchi"),
       kopniecia("Uchi-keage"),
@@ -227,7 +261,9 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-8.3": {
     sections: [
-      teoria("Nogare II."),
+      teoria(
+        "Nogare II – druga forma oddychania nogare, wykonywana z ruchem rąk",
+      ),
       pozycje("Sanchin-dachi"),
       uderzenia("Shuto-ganmen-uchi"),
       kopniecia("Mae-geri jodan"),
@@ -243,7 +279,9 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-7.1": {
     sections: [
-      teoria("Oddychanie – ibuki."),
+      teoria(
+        "Ibuki – oddychanie siłowe: mocny, głośny wydech z napięciem mięśni brzucha",
+      ),
       pozycje("Kiba-dachi"),
       uderzenia("Uraken-sayu-uchi", "Uraken-hizo-uchi"),
       kopniecia("Kansetsu-geri"),
@@ -258,7 +296,10 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-7.2": {
     sections: [
-      teoria("Etykieta dojo."),
+      teoria(
+        "Etykieta dojo – ukłon przy wejściu i wyjściu, punktualność, wykonywanie poleceń, odpowiedź „Osu”",
+        "Spóźnienie – siadamy w seiza przy wejściu i czekamy na zgodę instruktora",
+      ),
       pozycje("Tsuruashi-dachi"),
       uderzenia("Uraken-yoko-uchi (jodan, chudan)"),
       kopniecia("Kakato-geri"),
@@ -271,7 +312,10 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-7.3": {
     sections: [
-      teoria("Historia karate Kyokushin i Sosai Masutatsu Oyamy."),
+      teoria(
+        "Sosai Masutatsu Oyama (1923–1994) – założyciel karate Kyokushin",
+        "1964 – powstanie organizacji Kyokushinkaikan i Honbu (centrali) w Tokio",
+      ),
       pozycje("Kake-dachi"),
       uderzenia("Shuto-mawashi-uchi"),
       kopniecia("Yoko-keage", "Ushiro-keage"),
@@ -300,7 +344,10 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-6.2": {
     sections: [
-      teoria("Wiedza na temat Światowej Organizacji Karate."),
+      teoria(
+        "KWF – Kyokushin World Federation, światowa federacja karate Kyokushin",
+        "Honbu – główna siedziba organizacji",
+      ),
       ruch("Krok dostawny w pozycji walki"),
       uderzenia(
         "Tettsui-hizo-uchi",
@@ -319,7 +366,9 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-6.3": {
     sections: [
-      teoria("Wyniki Polaków na mistrzostwach świata i Europy."),
+      teoria(
+        "Wyniki Polaków na mistrzostwach świata i Europy – omawia instruktor",
+      ),
       ruch("Przekrok i zakrok w pozycji walki"),
       uderzenia("Tettsui-komekami-uchi", "Uraken-shita-tsuki"),
       bloki("Osae-uke"),
@@ -334,7 +383,17 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-5.1": {
     sections: [
-      teoria("Znajomość podstawowych słów ze słownika japońskiego."),
+      teoria(
+        "Hidari – lewy",
+        "Migi – prawy",
+        "Mae – przód",
+        "Ushiro – tył",
+        "Yoko – bok",
+        "Tsuki – cios",
+        "Geri – kopnięcie",
+        "Uke – blok",
+        "Dachi – pozycja",
+      ),
       ruch("Poruszanie się z partnerem w pozycji walki"),
       uderzenia("Seiken-mawashi-uchi"),
       bloki("Morote-uke"),
@@ -349,7 +408,18 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-5.2": {
     sections: [
-      teoria("Komendy stosowane na treningu karate Kyokushin."),
+      teoria(
+        "Seiza – siad klęczny",
+        "Mokuso – zamknąć oczy, medytacja",
+        "Rei – ukłon",
+        "Kiritsu – wstać",
+        "Yoi – gotowość",
+        "Hajime – zacznij",
+        "Yame – stop",
+        "Mawatte – obrót",
+        "Naore – powrót do pozycji wyjściowej",
+        "Kamae – przyjęcie pozycji walki",
+      ),
       ruch(
         "Poruszanie się w pozycji walki z dowolnymi technikami ręcznymi i nożnymi, stosując bloki, uniki, zmianę dystansu oraz kiai",
       ),
@@ -368,7 +438,19 @@ const requirements: Record<string, GradeRequirements> = {
   },
   "J-5.3": {
     sections: [
-      teoria("Komendy stosowane na zawodach karate Kyokushin."),
+      teoria(
+        "Shushin – sędzia główny",
+        "Fukushin – sędziowie boczni",
+        "Hajime – zacznij walkę",
+        "Yame – stop",
+        "Waza-ari – pół punktu",
+        "Ippon – pełny punkt, wygrana",
+        "Hantei – decyzja sędziów",
+        "Hikiwake – remis",
+        "Encho – dogrywka",
+        "Chui – kara",
+        "Shikkaku – dyskwalifikacja",
+      ),
       ruch("Walka z cieniem"),
       uderzenia("Nukite ippon / nihon / yonhon"),
       bloki("Juji-uke (jodan, gedan)"),
@@ -398,7 +480,10 @@ const requirements: Record<string, GradeRequirements> = {
       kata("Taikyoku Sono Ichi", "Taikyoku Sono Ni"),
       stamina("15 / 40 / 15"),
       kumiteTechniki("Ippon Kumite"),
-      kokyu("Nogare (Omote, Ura)", "Kiai"),
+      kokyu(
+        "Nogare (Omote, Ura) – spokojne oddychanie: wdech nosem, długi wydech ustami",
+        "Kiai – głośny, dynamiczny okrzyk",
+      ),
     ],
   },
   "S-9": {
@@ -465,7 +550,7 @@ const requirements: Record<string, GradeRequirements> = {
       kata("Pinan Sono Ichi", "Sanchin No Kata"),
       stamina("35 / 55 / 35", "Tobi geri + 10 cm"),
       kumite("Jiyu kumite 3 × 60 s"),
-      kokyu("Ibuki Sankai"),
+      kokyu("Ibuki Sankai – trzy oddechy ibuki: mocny wydech z napięciem mięśni brzucha"),
     ],
   },
   "S-6": {
@@ -653,39 +738,50 @@ const requirements: Record<string, GradeRequirements> = {
 export const examElements = [
   { name: "Kihon", description: "techniki podstawowe w miejscu" },
   { name: "Ido geiko", description: "techniki w poruszaniu się" },
+  { name: "Kihon kumite", description: "techniki do walki ćwiczone z partnerem" },
   { name: "Kata", description: "formy obowiązkowe na dany stopień" },
+  { name: "Sprawność fizyczna", description: "pompki, brzuszki, przysiady, skoki" },
+  { name: "Tameshiwari", description: "testy łamania, zazwyczaj na wyższe stopnie (brązowe i czarne pasy)" },
   { name: "Kumite", description: "walka kontaktowa" },
-  {
-    name: "Tameshiwari",
-    description:
-      "testy łamania, zazwyczaj na wyższe stopnie (brązowe i czarne pasy)",
-  },
-  {
-    name: "Sprawność fizyczna",
-    description: "pompki, brzuszki, przysiady, skoki",
-  },
 ];
 
-// Egzaminy na kyu odbywają się 2 razy w roku: do 4 kyu co pół roku, od 4 kyu do 1 kyu co rok.
-export const KYU_MIN_TRAINING =
-  "Staż: minimum pół roku treningów między egzaminami (egzaminy 2 razy w roku), od 4 kyu do 1 kyu minimum rok";
+// Pierwsze stopnie (Junior 10.1, Senior 10 kyu): 3 miesiące treningów przed pierwszym egzaminem.
+// Potem egzaminy 2 razy w roku: do 4 kyu co pół roku, od 4 kyu do 1 kyu co rok.
+export const FIRST_GRADE_CODES = ["J-10.1", "S-10"];
 
-export function kyuMinTraining(kyu: number) {
+export function kyuMinTraining(code: string, kyu: number) {
+  if (FIRST_GRADE_CODES.includes(code)) return "minimum 3 miesiące treningów przed pierwszym egzaminem";
   return kyu < 4
     ? "minimum rok treningów od poprzedniego egzaminu"
     : "minimum pół roku treningów od poprzedniego egzaminu";
 }
 
 export const examFormalRequirements = [
-  KYU_MIN_TRAINING,
+  "Staż przed pierwszym egzaminem: minimum 3 miesiące treningu",
+  "Staż między egzaminami: minimum pół roku (egzaminy 2 razy w roku), od 4 kyu do 1 kyu minimum rok",
   "Opłacone składki członkowskie",
   "Zgoda instruktora na przystąpienie do egzaminu",
-  "Oficjalny paszport KWF (na wyższe stopnie)",
+  "Oficjalny paszport KWF na stopnie mistrzowskie (dan)",
 ];
 
 const HIGHER_DAN_NOTE = "Tabela KWF nie podaje wymagań na ten stopień.";
 
+// Tabela KWF dla seniorów nie ma teorii, więc senior n kyu (10–5) uczy się teorii
+// z juniorskich stopni n.1–n.3, z objaśnieniami.
+function seniorTheory(code: string): RequirementSection | null {
+  const kyu = Number(code.slice(2));
+  if (!code.startsWith("S-") || kyu < 5) return null;
+  const items = [1, 2, 3].flatMap(
+    (sub) => requirements[`J-${kyu}.${sub}`]?.sections.find((s) => s.label === "Teoria i komendy")?.items ?? [],
+  );
+  return items.length ? teoria(...items) : null;
+}
+
 export function getGradeRequirements(code: string): GradeRequirements | null {
+  const theory = seniorTheory(code);
+  if (theory && requirements[code]) {
+    return { ...requirements[code], sections: [theory, ...requirements[code].sections] };
+  }
   if (requirements[code]) return requirements[code];
   if (code.startsWith("D-")) return { sections: [], note: HIGHER_DAN_NOTE };
   return null;
@@ -721,11 +817,55 @@ const ALIASES: Record<string, string> = {
   "juji-uke": "seiken-shuto-juji-uke",
 };
 
+// Ćwiczenia z testu sprawności: wspólny film dla wszystkich wariantów ćwiczenia.
+const EXERCISES: [RegExp, string, string][] = [
+  [/zaciskanie pięści/i, "zaciskanie-piesci", "Zaciskanie pięści"],
+  [/przeskoków z przysiadu przez partnera/i, "przeskok-przez-partnera", "Przeskok przez partnera"],
+  [/kołyski na brzuchu/i, "kolyska-na-brzuchu", "Kołyska na brzuchu"],
+  [/kołyski na plecach/i, "kolyska-na-plecach", "Kołyska na plecach"],
+  [/^pompki|ugięć ramion/i, "pompki", "Pompki"],
+  [/^brzuszki|skłonów w przód z leżenia/i, "brzuszki", "Brzuszki"],
+  [/przysiad/i, "przysiady", "Przysiady"],
+  [/przewrotów w przód/i, "przewrot-w-przod", "Przewrót w przód"],
+  [/przewrotów w tył/i, "przewrot-w-tyl", "Przewrót w tył"],
+  [/mostka/i, "mostek", "Mostek"],
+  [/szpagat/i, "szpagat", "Szpagat"],
+  [/gwiazda/i, "gwiazda", "Gwiazda gimnastyczna"],
+  [/dotknąć głową podłogi/i, "sklon-w-rozkroku", "Skłon w rozkroku"],
+  [/przejścia na rękach/i, "chodzenie-na-rekach", "Chodzenie na rękach"],
+  [/stania na rękach|zamach nogą/i, "stanie-na-rekach", "Stanie na rękach"],
+  [/scyzoryk/i, "scyzoryk", "Scyzoryk"],
+  [/przez pas/i, "przeskok-przez-pas", "Przeskok przez pas"],
+  [/podciągnię/i, "podciaganie", "Podciąganie na drążku"],
+  [/krzesłem/i, "przeskok-z-przewrotem", "Przeskok z przewrotem"],
+  [/samoobrony/i, "samoobrona", "Samoobrona"],
+  [/tobi geri/i, "tobi-geri", "Tobi geri"],
+];
+
+function exercise(item: string) {
+  return EXERCISES.find(([pattern]) => pattern.test(item));
+}
+
+// Część wymagania przed „ – ” (objaśnienie po myślniku pokazujemy osobno).
+export function splitMeaning(item: string): [string, string | null] {
+  const i = item.indexOf(" – ");
+  return i < 0 ? [item, null] : [item.slice(0, i), item.slice(i + 3)];
+}
+
+// Slug i nazwa techniki albo ćwiczenia, do którego prowadzi przycisk filmu.
+export function sectionItemSlug(section: RequirementSection, item: string): string {
+  return (section.exercise && exercise(item)?.[1]) || techniqueSlug(item);
+}
+
+export function sectionItemName(section: RequirementSection, item: string): string {
+  return (section.exercise && exercise(item)?.[2]) || techniqueName(item);
+}
+
 // Nazwa techniki bez zakresu poziomów (J/C/G) i dopisków.
 export function techniqueName(item: string): string {
   return item
     .replace(/\([^)]*\)/g, "")
-    .replace(/\s+–\s+3 metody$/, "")
+    .replace(/\s+–\s+.*$/, "")
     .replace(/\s+plus kiai$/i, "")
     .replace(/\s+(jodan|chudan|gedan)$/i, "")
     .replace(/\s+/g, " ")
@@ -758,6 +898,7 @@ export type RequirementTechnique = {
   slug: string;
   name: string;
   category: TechniqueCategory;
+  subcategory: string | null;
   firstGradeCode: string;
 };
 
@@ -770,11 +911,12 @@ export function requirementTechniques(
     for (const section of getGradeRequirements(code)?.sections ?? []) {
       if (!section.video) continue;
       for (const item of section.items) {
-        const slug = techniqueSlug(item);
+        const slug = sectionItemSlug(section, item);
         if (!seen.has(slug)) {
           seen.set(slug, {
             slug,
-            name: techniqueName(item),
+            name: sectionItemName(section, item),
+            subcategory: section.exercise ? "sprawnosc" : null,
             category: section.category ?? "kihon",
             firstGradeCode: code,
           });
@@ -783,4 +925,10 @@ export function requirementTechniques(
     }
   }
   return [...seen.values()];
+}
+
+// Sortuje techniki w kolejności wymagań: od najniższego stopnia, a w stopniu pozycje, uderzenia, bloki, kopnięcia…
+export function sortByRequirements<T extends { slug: string }>(techniques: T[], gradeCodes: string[]): T[] {
+  const position = new Map(requirementTechniques(gradeCodes).map((t, i) => [t.slug, i]));
+  return techniques.toSorted((a, b) => (position.get(a.slug) ?? Infinity) - (position.get(b.slug) ?? Infinity));
 }

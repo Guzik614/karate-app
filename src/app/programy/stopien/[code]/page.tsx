@@ -4,12 +4,15 @@ import { notFound } from "next/navigation";
 import { Belt, beltDescription } from "@/components/belt";
 import { CardLink } from "@/components/card-link";
 import { TechniqueVideoButton } from "@/components/technique-video-button";
+import { TheoryQuiz } from "@/components/theory-quiz";
 import {
-  kyuMinTraining,
   getGradeRequirements,
-  techniqueName,
-  techniqueSlug,
+  kyuMinTraining,
+  sectionItemName,
+  sectionItemSlug,
+  splitMeaning,
 } from "@/content/grade-requirements";
+import { QUIZ_PASS_PERCENT, getTheoryQuiz } from "@/content/theory-quiz";
 import { getGrades, getPrograms, getTechniques } from "@/lib/data";
 import type { Grade } from "@/lib/types";
 
@@ -44,6 +47,7 @@ export default async function GradePrepPage({
   const programs = allPrograms.filter((p) => p.grade_code === grade.code);
   const videos = new Map(techniques.map((t) => [t.slug, t]));
   const requirements = getGradeRequirements(grade.code);
+  const quiz = requirements?.sections.length ? getTheoryQuiz(grade.code) : [];
 
   return (
     <article className="mx-auto max-w-3xl space-y-8">
@@ -71,7 +75,7 @@ export default async function GradePrepPage({
         {requirements?.sections.length ? (
           <>
             <p className="mb-4 text-sm text-muted">
-              Kliknij technikę oznaczoną ▶, aby obejrzeć film instruktażowy.
+              Kliknij technikę lub ćwiczenie oznaczone ▶, aby obejrzeć film instruktażowy.
             </p>
             <dl className="space-y-4">
               {requirements.sections.map((section, i) => (
@@ -83,25 +87,39 @@ export default async function GradePrepPage({
                     {section.video ? (
                       <ul className="flex flex-wrap gap-2">
                         {section.items.map((item) => {
-                          const slug = techniqueSlug(item);
+                          const slug = sectionItemSlug(section, item);
                           const technique = videos.get(slug);
+                          const [label, meaning] = splitMeaning(item);
                           return (
-                            <li key={item}>
+                            <li key={item} className={meaning ? "flex w-full flex-wrap items-center gap-x-3 gap-y-1" : ""}>
                               <TechniqueVideoButton
-                                label={item}
+                                label={label}
                                 slug={slug}
-                                name={technique?.name ?? techniqueName(item)}
+                                name={technique?.name ?? sectionItemName(section, item)}
                                 playbackId={technique?.mux_playback_id ?? null}
                               />
+                              {meaning && <span className="text-sm text-muted">{meaning}</span>}
                             </li>
                           );
                         })}
                       </ul>
                     ) : (
                       <ul className="list-disc space-y-1 pl-5 marker:text-accent">
-                        {section.items.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
+                        {section.items.map((item) => {
+                          const [term, meaning] = splitMeaning(item);
+                          return (
+                            <li key={item}>
+                              {meaning ? (
+                                <>
+                                  <span className="font-semibold">{term}</span>
+                                  <span className="text-muted"> – {meaning}</span>
+                                </>
+                              ) : (
+                                item
+                              )}
+                            </li>
+                          );
+                        })}
                       </ul>
                     )}
                   </dd>
@@ -110,7 +128,7 @@ export default async function GradePrepPage({
             </dl>
             {grade.kyu !== null && (
               <p className="mt-5 text-sm text-muted">
-                Staż: {kyuMinTraining(grade.kyu)}.
+                Staż: {kyuMinTraining(grade.code, grade.kyu)}.
               </p>
             )}
             <p className="mt-2 text-sm text-muted">
@@ -126,6 +144,16 @@ export default async function GradePrepPage({
           </p>
         )}
       </section>
+
+      {quiz.length > 0 && (
+        <section id="quiz" className="scroll-mt-20 rounded-xl border border-border bg-card p-5">
+          <h2 className="mb-1 text-xl font-semibold">Quiz z teorii</h2>
+          <p className="mb-5 text-sm text-muted">
+            Sprawdź, czy znasz teorię na {grade.label}. Pytania obejmują też powtórkę z niższych stopni.
+          </p>
+          <TheoryQuiz code={grade.code} questions={quiz} passPercent={QUIZ_PASS_PERCENT} />
+        </section>
+      )}
 
       {programs.length > 0 && (
         <section>

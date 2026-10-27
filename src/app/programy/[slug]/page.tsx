@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Belt } from "@/components/belt";
+import { getTheoryQuiz } from "@/content/theory-quiz";
 import { getGrades, getProgram } from "@/lib/data";
 import type { ProgramItem } from "@/lib/types";
 
@@ -18,6 +19,7 @@ export default async function ProgramPage({ params }: PageProps<"/programy/[slug
   const { program, items } = result;
   const grade = program.grade_code ? (await getGrades()).find((g) => g.code === program.grade_code) : undefined;
 
+  const hasQuiz = grade ? getTheoryQuiz(grade.code).length > 0 : false;
   const days = Map.groupBy(items, (item: ProgramItem) => item.day);
 
   return (
@@ -34,6 +36,24 @@ export default async function ProgramPage({ params }: PageProps<"/programy/[slug
         )}
         <h1 className="text-3xl font-bold tracking-tight">{program.title}</h1>
         {program.description && <p className="mt-2 max-w-2xl text-muted">{program.description}</p>}
+        {grade && (
+          <div className="mt-4 flex flex-wrap gap-2 text-sm">
+            <Link
+              href={`/programy/stopien/${grade.code}`}
+              className="rounded-lg border border-border px-3 py-1.5 hover:border-accent hover:text-accent-text"
+            >
+              Wymagania egzaminacyjne i filmy
+            </Link>
+            {hasQuiz && (
+              <Link
+                href={`/programy/stopien/${grade.code}#quiz`}
+                className="rounded-lg bg-accent px-3 py-1.5 font-semibold text-white"
+              >
+                Quiz z teorii
+              </Link>
+            )}
+          </div>
+        )}
       </header>
 
       {[...days.entries()].map(([day, dayItems]) => (
@@ -44,13 +64,17 @@ export default async function ProgramPage({ params }: PageProps<"/programy/[slug
               <li key={item.id} className="flex items-start justify-between gap-4 px-4 py-3">
                 <div>
                   {item.technique ? (
-                    <Link href={`/techniki/${item.technique.slug}`} className="font-medium hover:text-accent-text">
-                      {item.technique.name}
-                    </Link>
+                    <>
+                      <Link href={`/techniki/${item.technique.slug}`} className="font-medium hover:text-accent-text">
+                        {item.technique.name}
+                      </Link>
+                      {item.notes && item.notes !== item.technique.name && (
+                        <p className="text-sm text-muted">{item.notes}</p>
+                      )}
+                    </>
                   ) : (
-                    <span className="font-medium">Ćwiczenie</span>
+                    <span className="font-medium">{item.notes ?? "Ćwiczenie"}</span>
                   )}
-                  {item.notes && <p className="text-sm text-muted">{item.notes}</p>}
                 </div>
                 {item.reps && <span className="shrink-0 text-sm font-medium">{item.reps}</span>}
               </li>
