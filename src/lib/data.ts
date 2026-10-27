@@ -1,4 +1,3 @@
-
 import "server-only";
 import { seedGlossary } from "@/content/glossary";
 import { knowledgeCategories, seedArticles } from "@/content/knowledge";
