@@ -6,22 +6,30 @@ import { getArticleBySlug, getGrades } from "@/lib/data";
 
 export async function generateMetadata({ params }: PageProps<"/wiedza/[slug]">): Promise<Metadata> {
   const { slug } = await params;
+  if (slug === "system-stopni-kyu-dan") {
+    return { 
+      title: "System stopni: kyu i dan", 
+      description: "Kolory pasów w Kyokushin oraz dwutorowy system egzaminacyjny (Junior / Senior)." 
+    };
+  }
   const article = await getArticleBySlug(slug);
   return { title: article?.title ?? "Artykuł", description: article?.excerpt ?? undefined };
 }
 
 export default async function ArticlePage({ params }: PageProps<"/wiedza/[slug]">) {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
   
-  // Jeśli to strona o systemie stopni, pobieramy dane z tabeli grades
+  // Jeśli to strona o systemie stopni, wymuszamy renderowanie dynamicznych tabel z bazy grades
   const isGradesPage = slug === "system-stopni-kyu-dan";
+  const article = isGradesPage ? null : await getArticleBySlug(slug);
   const grades = isGradesPage ? await getGrades() : [];
 
   if (!article && !isGradesPage) notFound();
 
-  const title = article?.title ?? "System stopni: kyu i dan";
-  const excerpt = article?.excerpt ?? "Kolory pasów w Kyokushin oraz dwutorowy system egzaminacyjny (Junior / Senior).";
+  const title = isGradesPage ? "System stopni: kyu i dan" : (article?.title ?? "");
+  const excerpt = isGradesPage 
+    ? "Kolory pasów w Kyokushin oraz dwutorowy system egzaminacyjny (Junior / Senior)." 
+    : (article?.excerpt ?? "");
   const categorySlug = article?.category_slug ?? "teoria";
 
   return (
