@@ -2,7 +2,13 @@
 // Każdy stopień dostaje plan na 3 dni w tygodniu, w którym są tylko techniki potrzebne na egzamin.
 
 import type { Grade } from "@/lib/types";
-import { getGradeRequirements, techniqueSlug, type RequirementSection } from "./grade-requirements";
+import {
+  FIRST_GRADE_CODES,
+  getGradeRequirements,
+  sectionItemSlug,
+  splitMeaning,
+  type RequirementSection,
+} from "./grade-requirements";
 import { seedGrades } from "./grades";
 
 export type SeedProgramItem = {
@@ -68,23 +74,25 @@ const SENIOR_REPS: Reps = {
 function sectionItems(section: RequirementSection, reps: Reps): SeedProgramItem[] {
   const day = DAY_BY_LABEL[section.label];
   if (!day) return []; // wiek i staż, uprawnienia itp. nie są ćwiczeniami
+  if (section.label === "Teoria i komendy") {
+    const terms = section.items.map((item) => splitMeaning(item)[0]);
+    return [{ day, technique: null, reps: "Quiz", notes: `Teoria i komendy: ${terms.join(", ")}` }];
+  }
   return section.items.map((item) => {
-    if (section.label === "Teoria i komendy") {
-      return { day, technique: null, reps: "Quiz", notes: `Teoria: ${item}` };
-    }
-    if (section.label === "Test sprawności") {
-      return { day, technique: null, reps: "Test", notes: item };
+    if (section.exercise) {
+      return { day, technique: sectionItemSlug(section, item), reps: "Test", notes: item };
     }
     if (section.video) {
-      return { day, technique: techniqueSlug(item), reps: reps[section.label] ?? null, notes: item };
+      return { day, technique: sectionItemSlug(section, item), reps: reps[section.label] ?? null, notes: item };
     }
     return { day, technique: null, reps: reps[section.label] ?? null, notes: `${section.label}: ${item}` };
   });
 }
 
-// Pół roku między egzaminami, od 4 kyu do 1 kyu rok.
+// 3 miesiące przed pierwszym egzaminem, potem pół roku między egzaminami, od 4 kyu do 1 kyu rok.
 function durationWeeks(grade: Grade) {
   if (grade.kyu === null) return null;
+  if (FIRST_GRADE_CODES.includes(grade.code)) return 13;
   return grade.kyu < 4 ? 52 : 26;
 }
 

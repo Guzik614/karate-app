@@ -16,10 +16,11 @@ const q = (question: string, answer: string, ...wrong: string[]): QuizQuestion =
 
 const bank: Record<string, QuizQuestion[]> = {
   "J-10.1": [
+    q("Co oznacza słowo dojo?", "Sala treningowa, miejsce nauki karate", "Strój do karate", "Ukłon"),
     q("Co oznacza słowo jodan?", "Poziom górny (głowa)", "Poziom środkowy (tułów)", "Poziom dolny (nogi)"),
     q("Co oznacza słowo chudan?", "Poziom środkowy (tułów)", "Poziom górny (głowa)", "Poziom dolny (nogi)"),
     q("Co oznacza słowo gedan?", "Poziom dolny (poniżej pasa)", "Poziom górny (głowa)", "Poziom środkowy (tułów)"),
-    q("Co to jest kiai?", "Okrzyk, który dodaje siły technice", "Ukłon na koniec treningu", "Rodzaj kopnięcia"),
+    q("Co to jest kiai?", "Głośny, dynamiczny okrzyk", "Ukłon na koniec treningu", "Rodzaj kopnięcia"),
     q(
       "Czy na treningu można mieć na sobie zegarek albo łańcuszek?",
       "Nie, zdejmujemy wszystko, co może kogoś zranić",

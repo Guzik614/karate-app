@@ -92,7 +92,7 @@ export const seedTechniques: SeedTechnique[] = [
       name: t.name,
       name_jp: null,
       category: t.category,
-      subcategory: null,
+      subcategory: t.subcategory,
       belt_level: gradeLabel.get(t.firstGradeCode) ?? null,
       description: null,
       sort_order: 100 + i,
